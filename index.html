@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hirata TI</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Gestion de Infraestructura</p>
+          <h1>Hirata TI</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" type="button" aria-label="Buscar">⌕</button>
+          <button class="primary-button" type="button">Nuevo servicio</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Secciones principales">
+        <button class="tab is-active" type="button" data-view="inicio">Inicio</button>
+        <button class="tab" type="button" data-view="inventario">Inventario RF-09</button>
+        <button class="tab" type="button" data-view="historial">Historial RF-08</button>
+        <button class="tab" type="button" data-view="cronograma">Cronograma</button>
+        <button class="tab" type="button" data-view="checklist">Checklist</button>
+        <button class="tab" type="button" data-view="procedimientos">Procedimientos</button>
+        <button class="tab" type="button" data-view="actualizaciones">Actualizaciones</button>
+      </nav>
+
+      <main>
+        <section id="view-inicio" class="view is-active" aria-labelledby="inicio-title">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Resumen general</p>
+              <h2 id="inicio-title">Panel Operativo TI</h2>
+            </div>
+            <p class="view-note">Alertas y flujo diario generados desde reglas de la base de datos.</p>
+          </div>
+
+          <section class="alert-strip" id="alertStrip" aria-label="Alertas prioritarias"></section>
+
+          <div class="workspace-grid">
+            <section class="kanban-area" aria-labelledby="kanban-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Mesa operativa</p>
+                  <h3 id="kanban-title">Kanban de mantenimiento</h3>
+                </div>
+                <button class="ghost-button" type="button" id="toggleAll">Plegar todo</button>
+              </div>
+              <div class="kanban" id="kanban"></div>
+            </section>
+
+            <aside class="priority-panel" aria-labelledby="priority-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Accion requerida</p>
+                  <h3 id="priority-title">Alertas prioritarias</h3>
+                </div>
+              </div>
+              <div id="priorityAlerts" class="priority-list"></div>
+            </aside>
+          </div>
+
+          <section class="summary-row" id="summaryRow" aria-label="Resumen numerico"></section>
+        </section>
+
+        <section id="view-inventario" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">RF-09</p>
+              <h2>Inventario TI</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-inventario"></table>
+          </div>
+        </section>
+
+        <section id="view-historial" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">RF-08</p>
+              <h2>Historial de servicios</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-historial"></table>
+          </div>
+        </section>
+
+        <section id="view-cronograma" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Planificacion</p>
+              <h2>Cronograma</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-cronograma"></table>
+          </div>
+        </section>
+
+        <section id="view-checklist" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Revision tecnica</p>
+              <h2>Checklist</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-checklist"></table>
+          </div>
+        </section>
+
+        <section id="view-procedimientos" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">Plantillas</p>
+              <h2>Procedimientos</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-procedimientos"></table>
+          </div>
+        </section>
+
+        <section id="view-actualizaciones" class="view">
+          <div class="view-header">
+            <div>
+              <p class="eyebrow">RF-07</p>
+              <h2>Actualizaciones de software</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="table-actualizaciones"></table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

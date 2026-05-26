@@ -1,0 +1,12 @@
+{
+  "name": "hirata-dash",
+  "version": "1.0.0",
+  "description": "Dashboard de Gestión de Infraestructura TI Hirata",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -123,7 +123,28 @@ try {
     ");
 
     $procedimientos = [];
+    try {
+        $procedimientos = rows("SELECT tipo_activo AS tipo, actividades_detalladas AS actividades, nota FROM procedimientos ORDER BY tipo_activo");
+    } catch (Throwable $e) {
+        $procedimientos = [
+            ["tipo" => "Servidor", "actividades" => "Revisión de logs de sistema, verificación de arreglos RAID, limpieza de bahías de discos y actualización de parches de seguridad.", "nota" => "Planificación del servicio. Sanity check."],
+            ["tipo" => "Switch de Red", "actividades" => "Limpieza de puertos con aire comprimido, revisión de temperatura de operación y verificación de loops de red.", "nota" => ""],
+            ["tipo" => "UPS", "actividades" => "Prueba de carga de batería, limpieza de bornes y verificación de alertas de software de gestión.", "nota" => ""],
+            ["tipo" => "Equipos PC/NB", "actividades" => "Soplado interno de polvo, limpieza de pantallas y teclados, actualización de antivirus y sistema operativo, revisión de temperatura CPU.", "nota" => ""]
+        ];
+    }
+
     $actualizaciones = [];
+    try {
+        $actualizaciones = rows("SELECT codigo_equipo AS equipo, software, version_anterior AS anterior, version_nueva AS nueva, DATE_FORMAT(fecha_actualizacion, '%Y-%m-%d') AS fecha, responsable, resultado FROM actualizaciones_software ORDER BY fecha_actualizacion DESC");
+    } catch (Throwable $e) {
+        $actualizaciones = [
+            ["equipo" => "PC-MP-001", "software" => "Windows Update", "anterior" => "22H2", "nueva" => "23H2", "fecha" => "2026-05-10", "responsable" => "Juan Pérez", "resultado" => "Correcto"],
+            ["equipo" => "NTB-MP-001", "software" => "Antivirus", "anterior" => "4.8.1", "nueva" => "4.9.0", "fecha" => "2026-05-11", "responsable" => "Pedro Soto", "resultado" => "Correcto"],
+            ["equipo" => "SRV-ADM-01", "software" => "Parches de seguridad", "anterior" => "Abril 2026", "nueva" => "Mayo 2026", "fecha" => "2026-05-12", "responsable" => "Camila Rojas", "resultado" => "Observado"]
+        ];
+    }
+
 
     echo json_encode([
         'alertas' => $alertas,

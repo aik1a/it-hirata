@@ -68,6 +68,8 @@ const demoData = {
 // ESTADO GLOBAL DE LA APLICACIÓN
 const state = {
     data: demoData,
+    tecnicos: ["Juan Pérez", "Pedro Soto", "Camila Rojas", "Admin TI"],
+    activeUser: null,
     tasks: [],
     activeTab: 'inicio',
     activeFilters: {
@@ -81,6 +83,26 @@ const state = {
     notifications: [],
     readNotifications: []
 };
+
+function getTecnicosOptions(selectedValue = '') {
+    return state.tecnicos.map(t =>
+        `<option value="${t}" ${t === selectedValue ? 'selected' : ''}>${t}</option>`
+    ).join('');
+}
+
+function populateTecnicosSelects() {
+    const opciones = '<option value="Todos">Todos</option>' +
+        state.tecnicos.map(t => `<option value="${t}">${t}</option>`).join('');
+
+    const filterSelect = document.getElementById('filter-responsible');
+    if (filterSelect) filterSelect.innerHTML = opciones;
+
+    const taskSelect = document.getElementById('task-responsible');
+    if (taskSelect) {
+        taskSelect.innerHTML = state.tecnicos
+            .map(t => `<option value="${t}">${t}</option>`).join('');
+    }
+}
 
 // MAPEOS DE SUB-NAVEGACIÓN DINÁMICA
 const subNavs = {
@@ -143,6 +165,10 @@ async function loadData() {
     }
 
     generateNotifications();
+    if (!state.activeUser && state.tecnicos.length > 0) {
+        state.activeUser = state.tecnicos[0];
+    }
+    populateTecnicosSelects();
 }
 
 // INICIALIZADOR PRINCIPAL
@@ -178,6 +204,28 @@ function updateNotificationBadge() {
             badge.classList.remove('hidden');
         }
     }
+}
+
+let _deleteCallback = null;
+
+function askConfirmDelete(mensaje, callback) {
+    _deleteCallback = callback;
+    document.getElementById('confirm-delete-msg').textContent = mensaje;
+    document.getElementById('modal-confirm-delete').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function confirmDelete() {
+    document.getElementById('modal-confirm-delete').classList.add('hidden');
+    if (_deleteCallback) {
+        _deleteCallback();
+        _deleteCallback = null;
+    }
+}
+
+function cancelDelete() {
+    document.getElementById('modal-confirm-delete').classList.add('hidden');
+    _deleteCallback = null;
 }
 
 // RENDERIZADO FLOTANTE DE NOTIFICACIONES TOAST
@@ -368,13 +416,30 @@ function applyFilters() {
     renderKanban();
 }
 
-// BÚSQUEDA GLOBAL DESDE EL HEADER
 function triggerGlobalSearch(query) {
     state.activeFilters.searchQuery = query;
-    const kanbanSearch = document.getElementById('kanban-search');
-    if (kanbanSearch) {
-        kanbanSearch.value = query;
+
+    if (state.activeTab === 'inventario') {
+        const input = document.getElementById('inventario-search');
+        if (input) {
+            input.value = query;
+            filterInventarioTable();
+        }
+        return;
     }
+
+    if (state.activeTab === 'servicios') {
+        const input = document.getElementById('servicios-search');
+        if (input) {
+            input.value = query;
+            filterServiciosTable();
+        }
+        return;
+    }
+
+    // Default: kanban (inicio)
+    const kanbanSearch = document.getElementById('kanban-search');
+    if (kanbanSearch) kanbanSearch.value = query;
     renderKanban();
 }
 
@@ -449,7 +514,7 @@ async function refreshData() {
     const refreshBtn = document.querySelector('button[onclick="refreshData()"] i');
     if (refreshBtn) refreshBtn.classList.add('animate-spin');
 
-    showToast('Sincronizando', 'Consultando base de datos en tiempo real...');
+    showToast('Actualizando', 'Recargando datos del sistema...');
     await loadData();
     renderAllViews();
 
@@ -468,7 +533,7 @@ function closeNuevoDropdown() {
     if (dropdown) dropdown.classList.add('hidden');
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const container = document.getElementById('nuevo-dropdown-container');
     if (container && !container.contains(e.target)) {
         closeNuevoDropdown();
@@ -476,11 +541,182 @@ document.addEventListener('click', function(e) {
 });
 
 function openAddServiceModal() {
-    // Disponible en Fase 3
+    document.getElementById('modal-service-title').textContent = 'Registrar Mantención';
+    document.getElementById('serv-equipo').value = '';
+    document.getElementById('serv-serie').value = '';
+    document.getElementById('serv-tipo').value = 'Preventivo';
+    document.getElementById('serv-fecha').value = new Date().toISOString().split('T')[0];
+    document.getElementById('serv-estado').value = 'Operacional';
+    document.getElementById('serv-repuestos').value = '';
+    document.getElementById('serv-detalle').value = '';
+    document.getElementById('serv-id-editing').value = '';
+    document.getElementById('serv-tecnico').innerHTML = getTecnicosOptions();
+    document.getElementById('modal-service').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function openEditServiceModal(registroId) {
+    const h = state.data.historial.find(x => x.registro === registroId);
+    if (!h) return;
+    document.getElementById('modal-service-title').textContent = 'Editar Mantención';
+    document.getElementById('serv-equipo').value = h.equipo;
+    document.getElementById('serv-serie').value = h.serie || '';
+    document.getElementById('serv-tipo').value = h.tipo;
+    document.getElementById('serv-fecha').value = h.fecha;
+    document.getElementById('serv-estado').value = h.estado;
+    document.getElementById('serv-repuestos').value = h.repuestos || '';
+    document.getElementById('serv-detalle').value = h.detalle;
+    document.getElementById('serv-id-editing').value = h.registro;
+    document.getElementById('serv-tecnico').innerHTML = getTecnicosOptions(h.tecnico);
+    document.getElementById('modal-service').classList.remove('hidden');
+    lucide.createIcons();
 }
 
 function openAddEquipoModal() {
-    // Disponible en Fase 4
+    document.getElementById('modal-equipo-title').textContent = 'Agregar Equipo / Componente';
+    document.getElementById('inv-codigo').value = '';
+    document.getElementById('inv-codigo').removeAttribute('readonly');
+    document.getElementById('inv-tipo').value = 'Equipo';
+    document.getElementById('inv-categoria').value = '';
+    document.getElementById('inv-marca').value = '';
+    document.getElementById('inv-modelo').value = '';
+    document.getElementById('inv-serie').value = '';
+    document.getElementById('inv-macpn').value = '';
+    document.getElementById('inv-stock-actual').value = '';
+    document.getElementById('inv-stock-minimo').value = '';
+    document.getElementById('inv-estado').value = 'Operacional';
+    document.getElementById('inv-ubicacion').value = '';
+    document.getElementById('inv-id-editing').value = '';
+    ['inv-codigo-error','inv-stock-actual-error','inv-stock-minimo-error'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+    });
+    document.getElementById('modal-equipo').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function openEditEquipoModal(codigo) {
+    const item = state.data.inventario.find(x => x.codigo === codigo);
+    if (!item) return;
+    const [stockActual, stockMinimo] = (item.stock || '1/0').split('/');
+    document.getElementById('modal-equipo-title').textContent = 'Editar Equipo / Componente';
+    document.getElementById('inv-codigo').value = item.codigo;
+    document.getElementById('inv-codigo').setAttribute('readonly', true);
+    document.getElementById('inv-tipo').value = item.tipo;
+    document.getElementById('inv-categoria').value = item.categoria;
+    document.getElementById('inv-marca').value = item.marca || '';
+    document.getElementById('inv-modelo').value = item.modelo || '';
+    document.getElementById('inv-serie').value = item.serie || '';
+    document.getElementById('inv-macpn').value = item.macPn || '';
+    document.getElementById('inv-stock-actual').value = stockActual;
+    document.getElementById('inv-stock-minimo').value = stockMinimo;
+    document.getElementById('inv-estado').value = item.estado;
+    document.getElementById('inv-ubicacion').value = item.ubicacion || '';
+    document.getElementById('inv-id-editing').value = item.codigo;
+    ['inv-codigo-error','inv-stock-actual-error','inv-stock-minimo-error'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+    });
+    document.getElementById('modal-equipo').classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function closeEquipoModal() {
+    document.getElementById('modal-equipo').classList.add('hidden');
+}
+
+function saveEquipo() {
+    const codigo = document.getElementById('inv-codigo').value.trim();
+    const stockActual = document.getElementById('inv-stock-actual').value.trim();
+    const stockMinimo = document.getElementById('inv-stock-minimo').value.trim();
+
+    // Limpiar errores previos
+    ['inv-codigo-error','inv-stock-actual-error','inv-stock-minimo-error'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+    });
+
+    // Validaciones
+    let hasError = false;
+    const editingId = document.getElementById('inv-id-editing').value;
+
+    if (!codigo) {
+        document.getElementById('inv-codigo-error').textContent = 'Campo requerido';
+        document.getElementById('inv-codigo-error').classList.remove('hidden');
+        hasError = true;
+    } else if (!editingId) {
+        const existe = state.data.inventario.some(x => x.codigo === codigo);
+        if (existe) {
+            document.getElementById('inv-codigo-error').textContent = 'Este código ya existe';
+            document.getElementById('inv-codigo-error').classList.remove('hidden');
+            hasError = true;
+        }
+    }
+    if (!stockActual || isNaN(stockActual)) {
+        document.getElementById('inv-stock-actual-error').classList.remove('hidden');
+        hasError = true;
+    }
+    if (!stockMinimo || isNaN(stockMinimo)) {
+        document.getElementById('inv-stock-minimo-error').classList.remove('hidden');
+        hasError = true;
+    }
+    if (hasError) return;
+
+    const actual = parseInt(stockActual);
+    const minimo = parseInt(stockMinimo);
+    const estadoCalculado = actual <= minimo ? 'Stock Critico' :
+        document.getElementById('inv-estado').value;
+
+    const item = {
+        codigo,
+        tipo: document.getElementById('inv-tipo').value,
+        categoria: document.getElementById('inv-categoria').value.trim(),
+        marca: document.getElementById('inv-marca').value.trim(),
+        modelo: document.getElementById('inv-modelo').value.trim(),
+        serie: document.getElementById('inv-serie').value.trim(),
+        macPn: document.getElementById('inv-macpn').value.trim(),
+        stock: `${actual}/${minimo}`,
+        estado: estadoCalculado,
+        ubicacion: document.getElementById('inv-ubicacion').value.trim()
+    };
+
+    if (!state.data.inventario) state.data.inventario = [];
+
+    if (editingId) {
+        const idx = state.data.inventario.findIndex(x => x.codigo === editingId);
+        if (idx !== -1) state.data.inventario[idx] = item;
+        showToast('Equipo actualizado', `${codigo} fue actualizado correctamente.`, 'success');
+    } else {
+        state.data.inventario.unshift(item);
+        showToast('Equipo agregado', `${codigo} fue agregado al inventario.`, 'success');
+    }
+
+    closeEquipoModal();
+    renderInventarioTable();
+    lucide.createIcons();
+}
+
+function deleteEquipo(codigo) {
+    askConfirmDelete(
+        `¿Eliminar ${codigo} del inventario? Esta acción no se puede deshacer.`,
+        () => {
+            state.data.inventario = state.data.inventario.filter(x => x.codigo !== codigo);
+            showToast('Equipo eliminado', `${codigo} fue eliminado del inventario.`, 'warning');
+            renderInventarioTable();
+            lucide.createIcons();
+        }
+    );
+}
+
+function checkStockCritico() {
+    const actual = parseInt(document.getElementById('inv-stock-actual').value) || 0;
+    const minimo = parseInt(document.getElementById('inv-stock-minimo').value) || 0;
+    const selectEstado = document.getElementById('inv-estado');
+    const aviso = document.getElementById('inv-stock-aviso');
+    if (actual <= minimo && (actual !== 0 || minimo !== 0)) {
+        selectEstado.value = 'Stock Critico';
+        aviso.classList.remove('hidden');
+    } else {
+        aviso.classList.add('hidden');
+        if (selectEstado.value === 'Stock Critico') selectEstado.value = 'Operacional';
+    }
 }
 
 // PLEGAR O DESPLEGAR EL ACCORDION DEL CENTRO DE ACCIÓN
@@ -595,7 +831,7 @@ function renderKanban() {
         if (state.activeFilters.priority !== 'Todas' && task.prio !== state.activeFilters.priority) return false;
         if (state.activeFilters.responsible !== 'Todos' && task.resp !== state.activeFilters.responsible) return false;
         if (state.activeFilters.equipment && !task.equip.toLowerCase().includes(state.activeFilters.equipment.toLowerCase())) return false;
-        if (state.activeFilters.onlyMyTasks && task.resp !== 'Juan Pérez') return false;
+        if (state.activeFilters.onlyMyTasks && task.resp !== state.activeUser) return false;
         if (state.activeFilters.searchQuery) {
             const q = state.activeFilters.searchQuery.toLowerCase();
             const match = task.id.toLowerCase().includes(q) ||
@@ -843,12 +1079,22 @@ function renderInventarioTable() {
                 <td class="p-4 text-center"><span class="px-2 py-0.5 rounded text-[11px] ${stockColor}">${i.stock || '1/0'}</span></td>
                 <td class="p-4 text-center"><span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider ${stateColor}">${i.estado}</span></td>
                 <td class="p-4 text-slate-500">${i.ubicacion || 'Bodega'}</td>
+<td class="p-4 text-center">
+    <div class="flex gap-2 justify-center">
+        <button onclick="openEditEquipoModal('${i.codigo}')" class="p-1.5 rounded hover:bg-blue-50 text-blue-500 transition-colors" title="Editar">
+            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+        </button>
+        <button onclick="deleteEquipo('${i.codigo}')" class="p-1.5 rounded hover:bg-red-50 text-red-400 transition-colors" title="Eliminar">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+    </div>
+</td>
             </tr>
         `;
     }).join("");
 
     if ((state.data.inventario || []).length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-xs text-slate-400 font-medium">
+        tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-xs text-slate-400 font-medium">
             <div class="flex flex-col items-center gap-2">
                 <i data-lucide="box" class="w-8 h-8 text-slate-300"></i>
                 <span>No hay equipos registrados en el inventario</span>
@@ -917,6 +1163,14 @@ function renderServiciosTable() {
                 <td class="p-4 text-slate-500 font-medium">${h.repuestos || 'Ninguno'}</td>
                 <td class="p-4 text-slate-600">${h.tecnico}</td>
                 <td class="p-4 text-center"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${finalStateColor}">${h.estado}</span></td>
+<td class="p-4 text-center flex gap-2 justify-center">
+    <button onclick="openEditServiceModal('${h.registro}')" class="p-1.5 rounded hover:bg-blue-50 text-blue-500 transition-colors" title="Editar">
+        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+    </button>
+    <button onclick="deleteService('${h.registro}')" class="p-1.5 rounded hover:bg-red-50 text-red-400 transition-colors" title="Eliminar">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+    </button>
+</td>
             </tr>
         `;
     }).join("");
@@ -1007,31 +1261,85 @@ function renderCronogramaTable() {
 }
 
 // RENDERIZADO DE CHECKLIST DE EQUIPOS
+function toggleChecklistItem(equipoId, campo) {
+    const idx = state.data.checklist.findIndex(x => x.equipo === equipoId);
+    if (idx === -1) return;
+    const ciclo = ['Pendiente', 'Realizado', 'No aplica'];
+    const actual = state.data.checklist[idx][campo] || 'Pendiente';
+    const siguiente = ciclo[(ciclo.indexOf(actual) + 1) % ciclo.length];
+    state.data.checklist[idx][campo] = siguiente;
+    renderChecklistTable();
+    lucide.createIcons();
+}
+
+function saveObservacion(equipoId, valor) {
+    const idx = state.data.checklist.findIndex(x => x.equipo === equipoId);
+    if (idx === -1) return;
+    state.data.checklist[idx].observaciones = valor;
+}
+
+function getProgreso(ch) {
+    const campos = ['limpieza', 'software', 'pasta', 'ups', 'discoRam'];
+    const realizados = campos.filter(c => ch[c] === 'Realizado').length;
+    const aplicables = campos.filter(c => ch[c] !== 'No aplica').length;
+    return { realizados, aplicables };
+}
+
 function renderChecklistTable() {
     const tbody = document.getElementById('table-checklist-body');
     if (!tbody) return;
 
     tbody.innerHTML = (state.data.checklist || []).map(ch => {
-        const renderCheck = (val) => {
-            if (val === 'Realizado' || val === '1' || val === true) {
-                return `<span class="text-green-600 bg-green-50 px-2 py-0.5 rounded-full font-bold text-[10px] flex items-center justify-center gap-1 w-fit mx-auto"><i data-lucide="check" class="w-3 h-3"></i> OK</span>`;
+        const renderCheck = (val, campo) => {
+            let clases, icono, texto;
+            if (val === 'Realizado') {
+                clases = 'text-green-600 bg-green-50 hover:bg-green-100 cursor-pointer';
+                icono = 'check';
+                texto = 'OK';
+            } else if (val === 'No aplica') {
+                clases = 'text-slate-400 bg-slate-100 hover:bg-slate-200 cursor-pointer';
+                icono = 'minus';
+                texto = 'N/A';
+            } else {
+                clases = 'text-amber-600 bg-amber-50 hover:bg-amber-100 cursor-pointer';
+                icono = 'clock';
+                texto = 'Pendiente';
             }
-            if (val === 'No aplica') {
-                return `<span class="text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full text-[10px] flex items-center justify-center gap-1 w-fit mx-auto">N/A</span>`;
-            }
-            return `<span class="text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full font-bold text-[10px] flex items-center justify-center gap-1 w-fit mx-auto"><i data-lucide="clock" class="w-3 h-3"></i> Pendiente</span>`;
+            return `<span onclick="toggleChecklistItem('${ch.equipo}', '${campo}')"
+                class="px-2 py-0.5 rounded-full font-bold text-[10px] flex items-center justify-center gap-1 w-fit mx-auto transition-colors ${clases}"
+                title="Clic para cambiar estado">
+                <i data-lucide="${icono}" class="w-3 h-3"></i> ${texto}
+            </span>`;
         };
+
+        const { realizados, aplicables } = getProgreso(ch);
+        const pct = aplicables > 0 ? Math.round((realizados / aplicables) * 100) : 0;
+        const barColor = pct === 100 ? 'bg-green-500' : pct >= 50 ? 'bg-blue-500' : 'bg-amber-400';
 
         return `
             <tr class="hover:bg-slate-50/80 transition-colors">
-                <td class="p-4 font-bold text-slate-800">${ch.equipo}</td>
+                <td class="p-4">
+                    <div class="font-bold text-slate-800">${ch.equipo}</div>
+                    <div class="mt-1.5 flex items-center gap-2">
+                        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full ${barColor} rounded-full transition-all duration-300" style="width:${pct}%"></div>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono shrink-0">${realizados}/${aplicables}</span>
+                    </div>
+                </td>
                 <td class="p-4 text-slate-500 font-medium">${ch.categoria || 'Equipo'}</td>
-                <td class="p-4 text-center">${renderCheck(ch.limpieza)}</td>
-                <td class="p-4 text-center">${renderCheck(ch.software)}</td>
-                <td class="p-4 text-center">${renderCheck(ch.pasta)}</td>
-                <td class="p-4 text-center">${renderCheck(ch.ups)}</td>
-                <td class="p-4 text-center">${renderCheck(ch.discoRam)}</td>
-                <td class="p-4 text-slate-500 max-w-xs truncate" title="${ch.observaciones || ''}">${ch.observaciones || 'Sin novedades'}</td>
+                <td class="p-4 text-center">${renderCheck(ch.limpieza, 'limpieza')}</td>
+                <td class="p-4 text-center">${renderCheck(ch.software, 'software')}</td>
+                <td class="p-4 text-center">${renderCheck(ch.pasta, 'pasta')}</td>
+                <td class="p-4 text-center">${renderCheck(ch.ups, 'ups')}</td>
+                <td class="p-4 text-center">${renderCheck(ch.discoRam, 'discoRam')}</td>
+                <td class="p-4 max-w-xs">
+                    <input type="text"
+                        value="${ch.observaciones || ''}"
+                        placeholder="Sin novedades"
+                        onchange="saveObservacion('${ch.equipo}', this.value)"
+                        class="w-full text-xs text-slate-600 bg-transparent border-b border-transparent hover:border-slate-200 focus:border-blue-400 focus:outline-none py-0.5 transition-colors">
+                </td>
             </tr>
         `;
     }).join("");
@@ -1129,8 +1437,13 @@ function renderReportes() {
     const techContainer = document.getElementById('report-tech-container');
     if (techContainer) {
         const counts = {};
+        // Tareas cerradas del kanban
         state.tasks.filter(t => t.status === 'Cerrado').forEach(t => {
             counts[t.resp] = (counts[t.resp] || 0) + 1;
+        });
+        // Mantenciones del historial
+        (state.data.historial || []).forEach(h => {
+            if (h.tecnico) counts[h.tecnico] = (counts[h.tecnico] || 0) + 1;
         });
 
         techContainer.innerHTML = Object.entries(counts).map(([tech, val]) => `
@@ -1179,7 +1492,7 @@ function openEditTaskModal(task) {
     document.getElementById('task-id').value = task.id;
     document.getElementById('task-equip').value = task.equip === 'Sin equipo' ? '' : task.equip;
     document.getElementById('task-desc').value = task.desc;
-    document.getElementById('task-resp').value = task.resp;
+    document.getElementById('task-responsible').value = task.resp;
     document.getElementById('task-status').value = task.status;
     document.getElementById('task-prio').value = task.prio;
     document.getElementById('task-date').value = task.date;
@@ -1200,7 +1513,7 @@ function saveTask(event) {
     const idInput = document.getElementById('task-id').value;
     const equipInput = document.getElementById('task-equip').value.trim();
     const desc = document.getElementById('task-desc').value.trim();
-    const resp = document.getElementById('task-resp').value;
+    const resp = document.getElementById('task-responsible').value;
     const status = document.getElementById('task-status').value;
     const prio = document.getElementById('task-prio').value;
     const date = document.getElementById('task-date').value;
@@ -1339,6 +1652,13 @@ function quickChangeStatus(taskId, newStatus) {
     const index = state.tasks.findIndex(t => t.id === taskId);
     if (index === -1) return;
     state.tasks[index].status = newStatus;
+
+    // Sincronizar con el cronograma si la tarea existe ahí
+    const cronIdx = (state.data.cronograma || []).findIndex(c => c.tarea === taskId);
+    if (cronIdx !== -1) {
+        state.data.cronograma[cronIdx].estado = newStatus;
+    }
+
     renderKanban();
     renderActionCenter();
     renderReportes();
@@ -1346,57 +1666,93 @@ function quickChangeStatus(taskId, newStatus) {
 }
 
 function deleteTask(event, id) {
-    event.stopPropagation();
-    const confirmed = confirm(`¿Eliminar la tarea ${id}? Esta acción no se puede deshacer.`);
-    if (!confirmed) return;
-    state.tasks = state.tasks.filter(t => t.id !== id);
-    renderKanban();
-    renderActionCenter();
-    renderReportes();
-    showToast('Tarea eliminada', `La tarea ${id} fue eliminada del panel.`, 'warning');
+    if (event && event.stopPropagation) {
+        event.stopPropagation();
+    }
+    // Si se llama como deleteTask(id)
+    if (typeof id === 'undefined') {
+        id = event;
+    }
+
+    askConfirmDelete(
+        `¿Eliminar la tarea ${id}? Esta acción no se puede deshacer.`,
+        () => {
+            state.tasks = state.tasks.filter(t => t.id !== id);
+            closeTaskModal();
+            renderKanban();
+            renderActionCenter();
+            renderReportes();
+            showToast('Tarea de eliminación', `La tarea ${id} fue eliminada.`, 'warning');
+            lucide.createIcons();
+        }
+    );
+}
+
+function closeTaskModal() {
+    closeAddTaskModal();
 }
 
 // CONTROL DE MODALES - SERVICIO
-function openNewServiceModal() {
-    document.getElementById('modal-service').classList.remove('hidden');
-}
-
 function closeNewServiceModal() {
     document.getElementById('modal-service').classList.add('hidden');
 }
 
 function createService() {
-    const name = document.getElementById('serv-name').value;
-    const category = document.getElementById('serv-category').value;
-    const desc = document.getElementById('serv-desc').value;
-    if (!name) {
-        showToast('Atención', 'Por favor ingresa un nombre para el servicio.', 'warning');
-        return;
-    }
+    const equipo = document.getElementById('serv-equipo').value.trim();
+    const tecnico = document.getElementById('serv-tecnico').value;
+    const detalle = document.getElementById('serv-detalle').value.trim();
+    const fecha = document.getElementById('serv-fecha').value;
 
-    // Agregar registro local al historial simulado
-    const newReg = `MNT-${1000 + (state.data.historial || []).length + 1}`;
-    const todayStr = new Date().toISOString().split('T')[0];
+    // Validaciones
+    let hasError = false;
+    ['serv-equipo-error', 'serv-tecnico-error', 'serv-detalle-error', 'serv-fecha-error'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+    });
+    if (!equipo) { document.getElementById('serv-equipo-error').classList.remove('hidden'); hasError = true; }
+    if (!tecnico) { document.getElementById('serv-tecnico-error').classList.remove('hidden'); hasError = true; }
+    if (!detalle) { document.getElementById('serv-detalle-error').classList.remove('hidden'); hasError = true; }
+    if (!fecha) { document.getElementById('serv-fecha-error').classList.remove('hidden'); hasError = true; }
+    if (hasError) return;
+
+    const editingId = document.getElementById('serv-id-editing').value;
+    const tipo = document.getElementById('serv-tipo').value;
+    const estado = document.getElementById('serv-estado').value;
+    const repuestos = document.getElementById('serv-repuestos').value.trim() || 'Ninguno';
+    const serie = document.getElementById('serv-serie').value.trim() || 'N/A';
 
     if (!state.data.historial) state.data.historial = [];
-    state.data.historial.unshift({
-        registro: newReg,
-        fecha: todayStr,
-        equipo: "N/A",
-        serie: "N/A",
-        tipo: category,
-        detalle: name + ": " + desc,
-        repuestos: "Ninguno",
-        tecnico: "Juan Pérez",
-        estado: "Operacional"
-    });
 
-    showToast('Servicio Creado', `Se ha inicializado con éxito: "${name}" en la categoría ${category}.`, 'success');
+    if (editingId) {
+        // Modo edición
+        const idx = state.data.historial.findIndex(x => x.registro === editingId);
+        if (idx !== -1) {
+            state.data.historial[idx] = { registro: editingId, fecha, equipo, serie, tipo, detalle, repuestos, tecnico, estado };
+            showToast('Mantención actualizada', `${editingId} fue actualizada correctamente.`, 'success');
+        }
+    } else {
+        // Modo creación
+        const newId = `MNT-${1000 + state.data.historial.length + 1}`;
+        state.data.historial.unshift({ registro: newId, fecha, equipo, serie, tipo, detalle, repuestos, tecnico, estado });
+        showToast('Mantención registrada', `${newId} fue agregada al historial.`, 'success');
+    }
+
     closeNewServiceModal();
-
-    // Refrescar vistas afectadas
     renderServiciosTable();
     renderReportes();
+    lucide.createIcons();
+}
+
+function deleteService(registroId) {
+    askConfirmDelete(
+        `¿Eliminar la mantención ${registroId}? Esta acción no se puede deshacer.`,
+        () => {
+            state.data.historial = state.data.historial.filter(x => x.registro !== registroId);
+            showToast('Mantención eliminada', `${registroId} fue eliminada del historial.`, 'warning');
+            renderServiciosTable();
+            renderReportes();
+            lucide.createIcons();
+        }
+    );
 }
 
 // CONTROL DE MODALES - NOTIFICACIONES

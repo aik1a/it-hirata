@@ -1,3 +1,9 @@
+function demoDate(offsetDays) {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    return d.toISOString().split('T')[0];
+}
+
 // DATOS DE PRUEBA / FALLBACK (Completamente en Español)
 const demoData = {
     alertas: [
@@ -7,17 +13,17 @@ const demoData = {
         { tipo: "Tarea pendiente", prioridad: "Alta", referencia: "T002", mensaje: "UPS: test de baterías y limpieza externa" }
     ],
     tareas: [
-        { id: "T001", estado: "Pendiente", activo: "SRV-MP-001", titulo: "Test de baterías y limpieza externa (UPS)", prioridad: "Alta", responsable: "Juan Pérez", fecha: "2024-05-15", detalle: "Ejecutar pruebas en bornes y comprobar estado de carga." },
-        { id: "T008", estado: "Pendiente", activo: "PC-ESCR-05", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Media", responsable: "Pedro Soto", fecha: "2024-05-20", detalle: "Soplado de polvo, sustitución de pasta y actualización de parches de seguridad." },
-        { id: "T003", estado: "Pendiente", activo: "SW-AC-02", titulo: "Limpieza de puertos y ordenamiento de cables", prioridad: "Media", responsable: "Juan Pérez", fecha: "2024-05-21", detalle: "Limpiar bocas RJ45 y etiquetar conexiones en rack." },
-        { id: "T002", estado: "En proceso", activo: "UPS-PRINCIPAL", titulo: "Mantenimiento Preventivo (Limpieza, Logs, Backups)", prioridad: "Alta", responsable: "Juan Pérez", fecha: "2024-05-10", detalle: "Copias de seguridad del sistema y soplado del chasis principal." },
-        { id: "T006", estado: "En proceso", activo: "PC-ESCR-03", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Media", responsable: "Pedro Soto", fecha: "2024-05-12", detalle: "Soplado de polvo y cambio de pasta en CPU." },
-        { id: "T011", estado: "En proceso", activo: "NB-02", titulo: "Limpieza física, rev. de batería, software", prioridad: "Media", responsable: "Pedro Soto", fecha: "2024-05-18", detalle: "Validar rendimiento del SO y estado físico del chasis." },
-        { id: "T004", estado: "Observado", activo: "PC-ESCR-07", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Baja", responsable: "Admin TI", fecha: "2024-05-22", detalle: "Equipo requiere atención por ventilador ruidoso." },
-        { id: "T013", estado: "Observado", activo: "UPS-SECUNDARIO", titulo: "Test de baterías y limpieza externa (UPS)", prioridad: "Baja", responsable: "Juan Pérez", fecha: "2024-05-25", detalle: "UPS secundario bajo nivel de carga de baterías." },
-        { id: "T010", estado: "Cerrado", activo: "NB-02", titulo: "Limpieza física, rev. de batería, software", prioridad: "Media", responsable: "Pedro Soto", fecha: "2024-05-10", detalle: "Operación de limpieza y actualizaciones de antivirus correctas." },
-        { id: "T009", estado: "Cerrado", activo: "PC-ESCR-01", titulo: "Actualización de inventario y cierre de bitácora", prioridad: "Baja", responsable: "Admin TI", fecha: "2024-05-09", detalle: "Documentación finalizada en planilla física." },
-        { id: "T005", estado: "Cerrado", activo: "SW-AC-01", titulo: "Limpieza de puertos y ordenamiento de cables", prioridad: "Media", responsable: "Juan Pérez", fecha: "2024-05-08", detalle: "Switch core del primer piso peinado y limpio." }
+        { id: "T001", estado: "Pendiente", activo: "SRV-MP-001", titulo: "Test de baterías y limpieza externa (UPS)", prioridad: "Alta", responsable: "Juan Pérez", fecha: demoDate(5), detalle: "Ejecutar pruebas en bornes y comprobar estado de carga." },
+        { id: "T008", estado: "Pendiente", activo: "PC-ESCR-05", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Media", responsable: "Pedro Soto", fecha: demoDate(8), detalle: "Soplado de polvo, sustitución de pasta y actualización de parches de seguridad." },
+        { id: "T003", estado: "Pendiente", activo: "SW-AC-02", titulo: "Limpieza de puertos y ordenamiento de cables", prioridad: "Media", responsable: "Juan Pérez", fecha: demoDate(10), detalle: "Limpiar bocas RJ45 y etiquetar conexiones en rack." },
+        { id: "T002", estado: "En proceso", activo: "UPS-PRINCIPAL", titulo: "Mantenimiento Preventivo (Limpieza, Logs, Backups)", prioridad: "Alta", responsable: "Juan Pérez", fecha: demoDate(2), detalle: "Copias de seguridad del sistema y soplado del chasis principal." },
+        { id: "T006", estado: "En proceso", activo: "PC-ESCR-03", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Media", responsable: "Pedro Soto", fecha: demoDate(3), detalle: "Soplado de polvo y cambio de pasta en CPU." },
+        { id: "T011", estado: "En proceso", activo: "NB-02", titulo: "Limpieza física, rev. de batería, software", prioridad: "Media", responsable: "Pedro Soto", fecha: demoDate(1), detalle: "Validar rendimiento del SO y estado físico del chasis." },
+        { id: "T004", estado: "En revisión", activo: "PC-ESCR-07", titulo: "Limpieza interna, pasta térmica, act.", prioridad: "Baja", responsable: "Admin TI", fecha: demoDate(-2), detalle: "Equipo requiere atención por ventilador ruidoso." },
+        { id: "T013", estado: "En revisión", activo: "UPS-SECUNDARIO", titulo: "Test de baterías y limpieza externa (UPS)", prioridad: "Baja", responsable: "Juan Pérez", fecha: demoDate(-1), detalle: "UPS secundario bajo nivel de carga de baterías." },
+        { id: "T010", estado: "Cerrado", activo: "NB-02", titulo: "Limpieza física, rev. de batería, software", prioridad: "Media", responsable: "Pedro Soto", fecha: demoDate(-5), detalle: "Operación de limpieza y actualizaciones de antivirus correctas." },
+        { id: "T009", estado: "Cerrado", activo: "PC-ESCR-01", titulo: "Actualización de inventario y cierre de bitácora", prioridad: "Baja", responsable: "Admin TI", fecha: demoDate(-7), detalle: "Documentación finalizada en planilla física." },
+        { id: "T005", estado: "Cerrado", activo: "SW-AC-01", titulo: "Limpieza de puertos y ordenamiento de cables", prioridad: "Media", responsable: "Juan Pérez", fecha: demoDate(-3), detalle: "Switch core del primer piso peinado y limpio." }
     ],
     inventario: [
         { codigo: "PC-MP-001", tipo: "Equipo", categoria: "Torre Escritorio", marca: "HP", modelo: "ProDesk 600 G6", serie: "MXL1234567", macPn: "00:1A:2B:3C:4D:5E", stock: "1/0", estado: "Operacional", ubicacion: "Oficina Central" },
@@ -37,7 +43,7 @@ const demoData = {
         { tarea: "T001", semana: 1, dia: "Lunes", activo: "Servidor Central", descripcion: "Mantenimiento preventivo: limpieza, logs y backups", responsable: "Técnico TI", prioridad: "Alta", estado: "En proceso" },
         { tarea: "T002", semana: 1, dia: "Lunes", activo: "UPS", descripcion: "Test de baterías y limpieza externa", responsable: "Técnico TI", prioridad: "Alta", estado: "Pendiente" },
         { tarea: "T003", semana: 1, dia: "Martes", activo: "Switch de Red", descripcion: "Limpieza de puertos y ordenamiento de cables", responsable: "Técnico TI", prioridad: "Media", estado: "Pendiente" },
-        { tarea: "T004", semana: 1, dia: "Miércoles", activo: "PC Escritorio 01", descripcion: "Limpieza interna, pasta térmica y actualizaciones", responsable: "Soporte", prioridad: "Media", estado: "Observado" },
+        { tarea: "T004", semana: 1, dia: "Miércoles", activo: "PC Escritorio 01", descripcion: "Limpieza interna, pasta térmica y actualizaciones", responsable: "Soporte", prioridad: "Media", estado: "En revisión" },
         { tarea: "T005", semana: 1, dia: "Miércoles", activo: "PC Escritorio 02", descripcion: "Limpieza interna, pasta térmica y actualizaciones", responsable: "Soporte", prioridad: "Media", estado: "Cerrado" }
     ],
     checklist: [
@@ -108,6 +114,9 @@ const subNavs = {
 
 // CARGA DE DATOS DESDE EL BACKEND PHP
 async function loadData() {
+    const spinner = document.getElementById('loading-spinner');
+    if (spinner) spinner.classList.remove('hidden');
+
     try {
         const response = await fetch("api/dashboard.php", { cache: "no-store" });
         if (!response.ok) throw new Error("API no disponible");
@@ -117,7 +126,8 @@ async function loadData() {
         state.data = demoData;
     }
 
-    // Normalizar estructura de tareas de la API al formato esperado por el frontend
+    if (spinner) spinner.classList.add('hidden');
+
     if (state.data.tareas && Array.isArray(state.data.tareas)) {
         state.tasks = state.data.tareas.map(t => ({
             id: t.id,
@@ -126,13 +136,12 @@ async function loadData() {
             desc: t.titulo || t.detalle || '',
             resp: t.responsable || 'Técnico TI',
             prio: t.prioridad || 'Media',
-            date: t.fecha || '2024-05-20'
+            date: t.fecha || new Date().toISOString().split('T')[0]
         }));
     } else {
         state.tasks = [];
     }
 
-    // Generar alertas dinámicas
     generateNotifications();
 }
 
@@ -417,7 +426,7 @@ function highlightTask(id) {
     if (state.activeTab !== 'inicio') {
         changeSidebarTab('inicio', document.getElementById('sidebar-btn-inicio'));
     }
-    
+
     // Limpiar filtros para asegurar que sea visible
     clearAllFilters();
 
@@ -437,9 +446,14 @@ function highlightTask(id) {
 
 // REFRESCAR LOS DATOS (BOTÓN DE RELOJ SUPERIOR)
 async function refreshData() {
+    const refreshBtn = document.querySelector('button[onclick="refreshData()"] i');
+    if (refreshBtn) refreshBtn.classList.add('animate-spin');
+
     showToast('Sincronizando', 'Consultando base de datos en tiempo real...');
     await loadData();
     renderAllViews();
+
+    if (refreshBtn) refreshBtn.classList.remove('animate-spin');
     showToast('Sincronizado', 'Datos actualizados desde MySQL.', 'success');
 }
 
@@ -476,7 +490,7 @@ function renderAlertCards() {
     const tareasVencidas = state.tasks.filter(t => t.status !== 'Cerrado' && new Date(t.date) < new Date());
     const maintUrgente = state.tasks.filter(t => t.status !== 'Cerrado' && t.prio === 'Alta');
     const sinResponsable = (state.data.inventario || []).filter(i => i.tipo === "Equipo" && (!i.modelo || i.estado === "Observado")); // Regla de ejemplo
-    
+
     // Contadores
     document.getElementById('card-stock-critico-count').textContent = stockCritico.length;
     document.getElementById('card-tareas-vencidas-count').textContent = tareasVencidas.length;
@@ -534,7 +548,7 @@ function renderKanban() {
     const cols = {
         'Pendiente': document.getElementById('col-pendiente'),
         'En proceso': document.getElementById('col-proceso'),
-        'Observado': document.getElementById('col-observado'),
+        'En revisión': document.getElementById('col-observado'),
         'Cerrado': document.getElementById('col-cerrado')
     };
 
@@ -546,7 +560,7 @@ function renderKanban() {
     const counts = {
         'Pendiente': 0,
         'En proceso': 0,
-        'Observado': 0,
+        'En revisión': 0,
         'Cerrado': 0
     };
 
@@ -594,8 +608,8 @@ function renderKanban() {
         let statusBadge = '';
         if (task.status === 'En proceso') {
             statusBadge = `<span class="text-[9px] font-bold text-blue-600 bg-blue-50/80 px-1.5 py-0.5 rounded">En proceso</span>`;
-        } else if (task.status === 'Observado') {
-            statusBadge = `<span class="text-[9px] font-bold text-red-600 bg-red-50/80 px-1.5 py-0.5 rounded">Observado</span>`;
+        } else if (task.status === 'En revisión') {
+            statusBadge = `<span class="text-[9px] font-bold text-red-600 bg-red-50/80 px-1.5 py-0.5 rounded">En revisión</span>`;
         } else if (task.status === 'Cerrado') {
             statusBadge = `<span class="text-[9px] font-bold text-emerald-600 bg-emerald-50/80 px-1.5 py-0.5 rounded">Cerrado</span>`;
         }
@@ -625,7 +639,7 @@ function renderKanban() {
                     ${prioBadge}
                 </div>
             `;
-        } else if (task.status === 'En proceso' || task.status === 'Observado') {
+        } else if (task.status === 'En proceso' || task.status === 'En revisión') {
             footerHtml = `
                 <div class="flex items-center justify-between mt-3.5 border-t border-slate-100 pt-2.5">
                     ${statusBadge}
@@ -651,15 +665,15 @@ function renderKanban() {
             <div class="flex items-start justify-between">
                 <span class="text-[10px] font-bold text-slate-400 group-hover:text-blue-600 transition-colors">${task.id} · ${task.equip}</span>
                 <div class="flex gap-1.5 items-center">
-                    <button onclick="deleteTask(event, '${task.id}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-slate-400 hover:text-red-500 transition-all rounded hover:bg-slate-100" title="Eliminar tarea">
-                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <button onclick="deleteTask(event, '${task.id}')" class="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-red-500 transition-all rounded-lg hover:bg-red-50 min-w-[28px] min-h-[28px] flex items-center justify-center" title="Eliminar tarea">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
             
             <h4 class="text-xs font-bold text-slate-800 mt-1.5 line-clamp-2 leading-snug" title="${task.desc}">${task.desc}</h4>
             <p class="text-[10px] text-slate-500 mt-1">${task.resp}</p>
-            
+
             ${footerHtml}
         `;
 
@@ -669,8 +683,28 @@ function renderKanban() {
     // Actualizar contadores
     document.getElementById('count-pendiente').textContent = counts['Pendiente'];
     document.getElementById('count-proceso').textContent = counts['En proceso'];
-    document.getElementById('count-observado').textContent = counts['Observado'];
+    document.getElementById('count-observado').textContent = counts['En revisión'];
     document.getElementById('count-cerrado').textContent = counts['Cerrado'];
+
+    // Estado vacío por columna
+    const estadosColumnas = {
+        'Pendiente': 'col-pendiente',
+        'En proceso': 'col-proceso',
+        'En revisión': 'col-observado',
+        'Cerrado': 'col-cerrado'
+    };
+    Object.entries(estadosColumnas).forEach(([estado, colId]) => {
+        const col = document.getElementById(colId);
+        if (col && col.children.length === 0) {
+            col.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-8 text-center opacity-50">
+                    <i data-lucide="inbox" class="w-8 h-8 text-slate-300 mb-2"></i>
+                    <p class="text-xs text-slate-400 font-medium">Sin tareas ${estado.toLowerCase()}</p>
+                </div>
+            `;
+        }
+    });
+    lucide.createIcons();
 }
 
 // RENDERIZADO DEL CENTRO DE ACCIÓN DERECHO
@@ -764,11 +798,11 @@ function renderInventarioTable() {
         if (i.estado === 'Stock Critico') {
             stockColor = 'text-red-600 bg-red-50 font-bold';
         }
-        
+
         let stateColor = 'text-slate-600 bg-slate-100';
         if (i.estado === 'Operacional') stateColor = 'text-green-600 bg-green-50 font-medium';
         if (i.estado === 'Observado') stateColor = 'text-amber-600 bg-amber-50 font-medium';
-        
+
         return `
             <tr class="hover:bg-slate-50/80 transition-colors">
                 <td class="p-4 font-bold text-slate-800">${i.codigo}</td>
@@ -783,6 +817,15 @@ function renderInventarioTable() {
             </tr>
         `;
     }).join("");
+
+    if ((state.data.inventario || []).length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-xs text-slate-400 font-medium">
+            <div class="flex flex-col items-center gap-2">
+                <i data-lucide="box" class="w-8 h-8 text-slate-300"></i>
+                <span>No hay equipos registrados en el inventario</span>
+            </div>
+        </td></tr>`;
+    }
 }
 
 // FILTRADO LOCAL DE LA TABLA DE INVENTARIO
@@ -803,6 +846,27 @@ function filterInventarioTable(onlyCritico = false) {
             row.classList.add('hidden');
         }
     });
+
+    const visibles = document.querySelectorAll('#table-inventario-body tr:not(.hidden)');
+    const tbody = document.getElementById('table-inventario-body');
+    if (visibles.length === 0 && tbody) {
+        const existing = tbody.querySelector('.empty-filter-msg');
+        if (!existing) {
+            const tr = document.createElement('tr');
+            tr.className = 'empty-filter-msg';
+            tr.innerHTML = `<td colspan="9" class="p-8 text-center text-xs text-slate-400 font-medium">
+                <div class="flex flex-col items-center gap-2">
+                    <i data-lucide="search-x" class="w-8 h-8 text-slate-300"></i>
+                    <span>Sin resultados para esta búsqueda</span>
+                </div>
+            </td>`;
+            tbody.appendChild(tr);
+            lucide.createIcons();
+        }
+    } else {
+        const existing = tbody ? tbody.querySelector('.empty-filter-msg') : null;
+        if (existing) existing.remove();
+    }
 }
 
 // RENDERIZADO DE TABLA DE HISTORIAL
@@ -827,6 +891,15 @@ function renderServiciosTable() {
             </tr>
         `;
     }).join("");
+
+    if ((state.data.historial || []).length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-xs text-slate-400 font-medium">
+            <div class="flex flex-col items-center gap-2">
+                <i data-lucide="clipboard-list" class="w-8 h-8 text-slate-300"></i>
+                <span>No hay mantenimientos registrados en el historial</span>
+            </div>
+        </td></tr>`;
+    }
 }
 
 // FILTRADO LOCAL DE HISTORIAL
@@ -842,6 +915,27 @@ function filterServiciosTable() {
             row.classList.add('hidden');
         }
     });
+
+    const visiblesServ = document.querySelectorAll('#table-servicios-body tr:not(.hidden)');
+    const tbodyServ = document.getElementById('table-servicios-body');
+    if (visiblesServ.length === 0 && tbodyServ) {
+        const existing = tbodyServ.querySelector('.empty-filter-msg');
+        if (!existing) {
+            const tr = document.createElement('tr');
+            tr.className = 'empty-filter-msg';
+            tr.innerHTML = `<td colspan="9" class="p-8 text-center text-xs text-slate-400 font-medium">
+                <div class="flex flex-col items-center gap-2">
+                    <i data-lucide="search-x" class="w-8 h-8 text-slate-300"></i>
+                    <span>Sin resultados para esta búsqueda</span>
+                </div>
+            </td>`;
+            tbodyServ.appendChild(tr);
+            lucide.createIcons();
+        }
+    } else {
+        const existing = tbodyServ ? tbodyServ.querySelector('.empty-filter-msg') : null;
+        if (existing) existing.remove();
+    }
 }
 
 // RENDERIZADO DE TABLA DE CRONOGRAMA
@@ -857,7 +951,7 @@ function renderCronogramaTable() {
         let statusColor = 'text-slate-600 bg-slate-100';
         if (c.estado === 'Cerrado') statusColor = 'text-green-600 bg-green-50 font-medium';
         if (c.estado === 'En proceso') statusColor = 'text-blue-600 bg-blue-50 font-medium';
-        if (c.estado === 'Observado') statusColor = 'text-red-600 bg-red-50 font-medium';
+        if (c.estado === 'En revisión') statusColor = 'text-red-600 bg-red-50 font-medium';
 
         return `
             <tr class="hover:bg-slate-50/80 transition-colors">
@@ -872,6 +966,15 @@ function renderCronogramaTable() {
             </tr>
         `;
     }).join("");
+
+    if ((state.data.cronograma || []).length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-xs text-slate-400 font-medium">
+            <div class="flex flex-col items-center gap-2">
+                <i data-lucide="calendar" class="w-8 h-8 text-slate-300"></i>
+                <span>No hay tareas programadas en el cronograma</span>
+            </div>
+        </td></tr>`;
+    }
 }
 
 // RENDERIZADO DE CHECKLIST DE EQUIPOS
@@ -903,6 +1006,15 @@ function renderChecklistTable() {
             </tr>
         `;
     }).join("");
+
+    if ((state.data.checklist || []).length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-xs text-slate-400 font-medium">
+            <div class="flex flex-col items-center gap-2">
+                <i data-lucide="check-square" class="w-8 h-8 text-slate-300"></i>
+                <span>No hay checklists registrados</span>
+            </div>
+        </td></tr>`;
+    }
 }
 
 // RENDERIZADO DE LA PESTAÑA AJUSTES/CONFIG (PROCEDIMIENTOS Y ACTUALIZACIONES)
@@ -950,7 +1062,7 @@ function renderReportes() {
     const closed = state.tasks.filter(t => t.status === 'Cerrado').length;
     const total = state.tasks.length;
     const efficiency = total > 0 ? ((closed / total) * 100).toFixed(1) : "0.0";
-    
+
     const warnings = (state.data.alertas || []).length;
     const totalMaint = (state.data.historial || []).length;
 
@@ -970,7 +1082,7 @@ function renderReportes() {
         (state.data.inventario || []).forEach(i => {
             counts[i.categoria] = (counts[i.categoria] || 0) + 1;
         });
-        
+
         categoriesContainer.innerHTML = Object.entries(counts).map(([cat, val]) => `
             <div>
                 <div class="flex justify-between items-center text-xs font-semibold text-slate-600 mb-1">
@@ -1006,13 +1118,26 @@ function renderReportes() {
     }
 }
 
+function checkDateWarning(dateValue) {
+    const warning = document.getElementById('date-warning');
+    if (!warning || !dateValue) return;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selected = new Date(dateValue);
+    if (selected < today) {
+        warning.classList.remove('hidden');
+    } else {
+        warning.classList.add('hidden');
+    }
+}
+
 // CONTROL DE MODALES - TAREA
 function openAddTaskModal(status = 'Pendiente') {
     document.getElementById('modal-title').textContent = 'Agregar Nueva Tarea';
     document.getElementById('task-form').reset();
     document.getElementById('task-id').value = '';
     document.getElementById('task-status').value = status;
-    
+
     // Auto-generar fecha límite para hoy
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('task-date').value = today;
@@ -1023,7 +1148,7 @@ function openAddTaskModal(status = 'Pendiente') {
 function openEditTaskModal(task) {
     document.getElementById('modal-title').textContent = 'Editar Detalles de Tarea';
     document.getElementById('task-id').value = task.id;
-    document.getElementById('task-equip').value = `${task.id} · ${task.equip}`;
+    document.getElementById('task-equip').value = task.equip === 'Sin equipo' ? '' : task.equip;
     document.getElementById('task-desc').value = task.desc;
     document.getElementById('task-resp').value = task.resp;
     document.getElementById('task-status').value = task.status;
@@ -1033,29 +1158,73 @@ function openEditTaskModal(task) {
 }
 
 function closeAddTaskModal() {
+    document.querySelectorAll('#task-form .field-error').forEach(el => el.remove());
+    document.querySelectorAll('#task-form .border-red-400').forEach(el => el.classList.remove('border-red-400'));
+    const warning = document.getElementById('date-warning');
+    if (warning) warning.classList.add('hidden');
     document.getElementById('modal-task').classList.add('hidden');
 }
 
 function saveTask(event) {
     event.preventDefault();
+
     const idInput = document.getElementById('task-id').value;
-    const equipInput = document.getElementById('task-equip').value;
-    const desc = document.getElementById('task-desc').value;
+    const equipInput = document.getElementById('task-equip').value.trim();
+    const desc = document.getElementById('task-desc').value.trim();
     const resp = document.getElementById('task-resp').value;
     const status = document.getElementById('task-status').value;
     const prio = document.getElementById('task-prio').value;
     const date = document.getElementById('task-date').value;
 
+    // Limpiar errores previos
+    ['task-desc', 'task-date'].forEach(fieldId => {
+        const el = document.getElementById(fieldId);
+        el.classList.remove('border-red-400');
+        const prev = el.parentElement.querySelector('.field-error');
+        if (prev) prev.remove();
+    });
+
+    let hasError = false;
+
+    if (!desc) {
+        const el = document.getElementById('task-desc');
+        el.classList.add('border-red-400');
+        const msg = document.createElement('p');
+        msg.className = 'field-error text-[10px] text-red-500 mt-1';
+        msg.textContent = 'La descripción es obligatoria.';
+        el.parentElement.appendChild(msg);
+        hasError = true;
+    }
+
+    if (!date) {
+        const el = document.getElementById('task-date');
+        el.classList.add('border-red-400');
+        const msg = document.createElement('p');
+        msg.className = 'field-error text-[10px] text-red-500 mt-1';
+        msg.textContent = 'La fecha límite es obligatoria.';
+        el.parentElement.appendChild(msg);
+        hasError = true;
+    }
+
+    if (hasError) return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const taskDate = new Date(date);
+    if (taskDate < today) {
+        showToast('Advertencia', 'La fecha límite ingresada ya está vencida.', 'warning');
+    }
+
     let id = idInput;
-    let equip = equipInput;
+    let equip = equipInput || 'Sin equipo';
 
     if (!idInput || idInput.trim() === '') {
         const nextNum = state.tasks.length + 1;
         id = `T${String(nextNum).padStart(3, '0')}`;
-    }
-
-    if (!equip || equip.trim() === '') {
-        equip = 'Sin equipo';
+        const duplicate = state.tasks.find(t => t.id === id);
+        if (duplicate) {
+            id = `T${String(state.tasks.length + 2).padStart(3, '0')}`;
+        }
     }
 
     const taskData = { id, equip, desc, resp, status, prio, date };
@@ -1064,11 +1233,11 @@ function saveTask(event) {
         const index = state.tasks.findIndex(t => t.id === idInput);
         if (index !== -1) {
             state.tasks[index] = taskData;
-            showToast('Tarea Actualizada', `La tarea ${id} se guardó correctamente.`, 'success');
+            showToast('Tarea actualizada', `La tarea ${id} se guardó correctamente.`, 'success');
         }
     } else {
         state.tasks.push(taskData);
-        showToast('Tarea Creada', `Nueva tarea ${id} añadida a ${status}.`, 'success');
+        showToast('Tarea creada', `Nueva tarea ${id} añadida a ${status}.`, 'success');
     }
 
     closeAddTaskModal();
@@ -1077,13 +1246,25 @@ function saveTask(event) {
     renderReportes();
 }
 
+function quickChangeStatus(taskId, newStatus) {
+    const index = state.tasks.findIndex(t => t.id === taskId);
+    if (index === -1) return;
+    state.tasks[index].status = newStatus;
+    renderKanban();
+    renderActionCenter();
+    renderReportes();
+    showToast('Estado actualizado', `Tarea ${taskId} movida a "${newStatus}".`, 'success');
+}
+
 function deleteTask(event, id) {
     event.stopPropagation();
+    const confirmed = confirm(`¿Eliminar la tarea ${id}? Esta acción no se puede deshacer.`);
+    if (!confirmed) return;
     state.tasks = state.tasks.filter(t => t.id !== id);
     renderKanban();
     renderActionCenter();
     renderReportes();
-    showToast('Tarea Eliminada', `La tarea ${id} ha sido borrada del panel.`, 'warning');
+    showToast('Tarea eliminada', `La tarea ${id} fue eliminada del panel.`, 'warning');
 }
 
 // CONTROL DE MODALES - SERVICIO
@@ -1107,7 +1288,7 @@ function createService() {
     // Agregar registro local al historial simulado
     const newReg = `MNT-${1000 + (state.data.historial || []).length + 1}`;
     const todayStr = new Date().toISOString().split('T')[0];
-    
+
     if (!state.data.historial) state.data.historial = [];
     state.data.historial.unshift({
         registro: newReg,
@@ -1123,7 +1304,7 @@ function createService() {
 
     showToast('Servicio Creado', `Se ha inicializado con éxito: "${name}" en la categoría ${category}.`, 'success');
     closeNewServiceModal();
-    
+
     // Refrescar vistas afectadas
     renderServiciosTable();
     renderReportes();
@@ -1141,12 +1322,12 @@ function showNotificationsModal() {
         tbody.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Sin notificaciones de alertas de la base de datos.</p>`;
     } else {
         tbody.innerHTML = state.notifications.map(n => {
-            const bgClass = n.leido ? 'bg-slate-50 border-slate-200' : 
-                            n.prioridad === 'Alta' ? 'bg-red-50 border-red-500' : 'bg-amber-50 border-amber-500';
-            const textClass = n.leido ? 'text-slate-600' : 
-                             n.prioridad === 'Alta' ? 'text-red-700' : 'text-amber-700';
-            const titleClass = n.leido ? 'text-slate-800' : 
-                              n.prioridad === 'Alta' ? 'text-red-800' : 'text-amber-800';
+            const bgClass = n.leido ? 'bg-slate-50 border-slate-200' :
+                n.prioridad === 'Alta' ? 'bg-red-50 border-red-500' : 'bg-amber-50 border-amber-500';
+            const textClass = n.leido ? 'text-slate-600' :
+                n.prioridad === 'Alta' ? 'text-red-700' : 'text-amber-700';
+            const titleClass = n.leido ? 'text-slate-800' :
+                n.prioridad === 'Alta' ? 'text-red-800' : 'text-amber-800';
 
             return `
                 <div class="p-3 border-l-4 rounded-r-lg ${bgClass} transition-all">

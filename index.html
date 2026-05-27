@@ -39,58 +39,81 @@
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col overflow-hidden select-none">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col select-none">
 
     <!-- Notificaciones flotantes tipo Toast -->
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
 
     <!-- Contenedor Principal -->
-    <div class="flex flex-1 h-screen overflow-hidden">
+    <div class="flex flex-1 h-screen">
 
         <!-- BARRA LATERAL IZQUIERDA (AZUL DE ALTO CONTRASTE) -->
-        <aside class="w-18 md:w-20 bg-blue-950 text-white flex flex-col justify-between items-center py-6 border-r border-blue-900 flex-shrink-0 z-20">
+        <aside
+            class="w-18 md:w-20 bg-blue-950 text-white flex flex-col justify-between items-center py-6 border-r border-blue-900 flex-shrink-0 z-20">
             <!-- Logo / Inicio -->
             <div class="flex flex-col items-center gap-6 w-full">
                 <!-- Icono de marca -->
-                <div class="p-2 bg-blue-900 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer" onclick="clearAllFilters()">
+                <div class="p-2 bg-blue-900 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
+                    onclick="clearAllFilters()">
                     <i data-lucide="layout-grid" class="w-6 h-6 text-blue-200"></i>
                 </div>
 
                 <!-- Menu de Navegación -->
                 <nav class="flex flex-col gap-1 w-full px-2">
                     <!-- Inicio (Activo) -->
-                    <button id="sidebar-btn-inicio" class="flex flex-col items-center justify-center py-3 w-full rounded-xl bg-blue-900 text-white font-medium text-[10px] transition-all hover:bg-blue-800 group" onclick="changeSidebarTab('inicio', this)">
-                        <i data-lucide="home" class="w-5 h-5 mb-1 text-white group-hover:scale-105 transition-transform"></i>
+                    <button id="sidebar-btn-inicio"
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl bg-blue-900 text-white font-medium text-[10px] transition-all hover:bg-blue-800 group"
+                        onclick="changeSidebarTab('inicio', this)">
+                        <i data-lucide="home"
+                            class="w-5 h-5 mb-1 text-white group-hover:scale-105 transition-transform"></i>
                         <span>Inicio</span>
                     </button>
                     <!-- Inventario -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('inventario', this)">
-                        <i data-lucide="box" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('inventario', this)">
+                        <i data-lucide="box"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Inventario</span>
                     </button>
                     <!-- Servicios -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('servicios', this)">
-                        <i data-lucide="server" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('servicios', this)">
+                        <i data-lucide="server"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Servicios</span>
                     </button>
                     <!-- Calendario -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('calendario', this)">
-                        <i data-lucide="calendar" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('calendario', this)">
+                        <i data-lucide="calendar"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Calendario</span>
                     </button>
                     <!-- Reportes -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('reportes', this)">
-                        <i data-lucide="bar-chart-3" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('reportes', this)">
+                        <i data-lucide="bar-chart-3"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Reportes</span>
                     </button>
                     <!-- Equipos -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('equipos', this)">
-                        <i data-lucide="laptop" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('equipos', this)">
+                        <i data-lucide="laptop"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Equipos</span>
                     </button>
                     <!-- Ajustes -->
-                    <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="changeSidebarTab('config', this)">
-                        <i data-lucide="settings" class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
+                    <button
+                        class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-200 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                        onclick="changeSidebarTab('config', this)">
+                        <i data-lucide="settings"
+                            class="w-5 h-5 mb-1 text-blue-300 group-hover:text-white group-hover:scale-105 transition-transform"></i>
                         <span>Ajustes</span>
                     </button>
                 </nav>
@@ -98,64 +121,87 @@
 
             <!-- Ayuda (Abajo) -->
             <div class="w-full px-2">
-                <button class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-300 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group" onclick="showToast('Ayuda', 'Abriendo centro de ayuda y soporte técnico...')">
-                    <i data-lucide="help-circle" class="w-5 h-5 mb-1 text-blue-300 group-hover:scale-105 transition-transform"></i>
+                <button
+                    class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-300 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
+                    onclick="showToast('Ayuda', 'Abriendo centro de ayuda y soporte técnico...')">
+                    <i data-lucide="help-circle"
+                        class="w-5 h-5 mb-1 text-blue-300 group-hover:scale-105 transition-transform"></i>
                     <span>Ayuda</span>
                 </button>
             </div>
         </aside>
 
         <!-- SECCIÓN DE CONTENIDO PRINCIPAL (HEADER + DASHBOARD) -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden">
+        <main class="flex-1 flex flex-col h-full">
 
             <!-- BARRA SUPERIOR (HEADER) -->
-            <header class="bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10">
+            <header
+                class="bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10">
                 <!-- Título e Identificación -->
                 <div class="flex items-center gap-4">
                     <div class="flex flex-col">
-                        <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Gestión de Infraestructura</span>
+                        <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Gestión de
+                            Infraestructura</span>
                         <h1 class="text-xl font-bold text-slate-800 tracking-tight">Hirata TI</h1>
                     </div>
                 </div>
 
                 <!-- Buscador Central -->
-                <div class="hidden md:flex items-center bg-slate-100 rounded-lg px-3 py-1.5 w-96 border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all">
+                <div
+                    class="hidden md:flex items-center bg-slate-100 rounded-lg px-3 py-1.5 w-96 border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 mr-2"></i>
-                    <input type="text" id="global-search" placeholder="Buscar tareas, equipos, responsables..." class="bg-transparent text-sm w-full outline-none text-slate-700" oninput="triggerGlobalSearch(this.value)">
+                    <input type="text" id="global-search" placeholder="Buscar tareas, equipos, responsables..."
+                        class="bg-transparent text-sm w-full outline-none text-slate-700"
+                        oninput="triggerGlobalSearch(this.value)">
                 </div>
 
                 <!-- Acciones Rápidas del Usuario -->
                 <div class="flex items-center gap-4">
                     <!-- Notificaciones -->
-                    <button class="relative p-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors" onclick="showNotificationsModal()">
+                    <button
+                        class="relative p-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors"
+                        onclick="showNotificationsModal()">
                         <i data-lucide="bell" class="w-5 h-5"></i>
-                        <span id="header-alert-count" class="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-[10px] text-white rounded-full flex items-center justify-center font-bold">0</span>
+                        <span id="header-alert-count"
+                            class="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-[10px] text-white rounded-full flex items-center justify-center font-bold">0</span>
                     </button>
                     <!-- Perfil -->
-                    <div class="flex items-center gap-2 cursor-pointer p-1 hover:bg-slate-100 rounded-lg transition-colors" onclick="showToast('Perfil', 'Configuración de perfil de Juan Pérez')">
-                        <div class="w-8 h-8 rounded-full bg-[#101b37] flex items-center justify-center text-sm font-bold text-white">JP</div>
+                    <div class="flex items-center gap-2 cursor-pointer p-1 hover:bg-slate-100 rounded-lg transition-colors"
+                        onclick="showToast('Perfil', 'Configuración de perfil de Juan Pérez')">
+                        <div
+                            class="w-8 h-8 rounded-full bg-[#101b37] flex items-center justify-center text-sm font-bold text-white">
+                            JP</div>
                     </div>
                     <!-- Botón Nuevo Servicio -->
-                    <button class="bg-[#101b37] hover:bg-[#1a2d5c] text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-all hover:shadow" onclick="openNewServiceModal()">
+                    <button disabled
+                        class="bg-slate-300 text-slate-500 text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 cursor-not-allowed opacity-60"
+                        title="Próximamente: acceso rápido a todos los formularios">
                         <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Nuevo servicio</span>
+                        <span>Nuevo</span>
                     </button>
                 </div>
             </header>
 
             <!-- SUB-NAVEGACIÓN DE PESTAÑAS DINÁMICAS -->
-            <div class="bg-white px-6 py-2 border-b border-slate-200 flex items-center justify-between flex-shrink-0 shadow-sm z-10">
+            <div
+                class="bg-white px-6 py-2 border-b border-slate-200 flex items-center justify-between flex-shrink-0 shadow-sm z-10">
                 <div id="sub-nav-container" class="flex gap-2 overflow-x-auto py-1 scrollbar-none">
                     <!-- Las pestañas se inyectan y controlan dinámicamente mediante JS -->
                 </div>
                 <div class="flex items-center gap-1.5 text-xs text-slate-400">
                     <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                     <span id="last-update-time">Última actualización: hace unos momentos</span>
-                    <button class="p-1 hover:text-slate-600 transition-colors" onclick="refreshData()"><i data-lucide="refresh-cw" class="w-3 h-3"></i></button>
+                    <button class="p-1 hover:text-slate-600 transition-colors" onclick="refreshData()"><i
+                            data-lucide="refresh-cw" class="w-3 h-3"></i></button>
                 </div>
             </div>
 
             <!-- CONTENEDOR DE CONTENIDO CON SCROLL -->
+            <div id="loading-spinner"
+                class="hidden fixed inset-0 bg-white/70 backdrop-blur-sm z-40 flex flex-col items-center justify-center gap-4">
+                <div class="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                <p class="text-sm text-slate-500 font-medium">Cargando datos del sistema...</p>
+            </div>
             <div class="flex-1 overflow-y-auto p-6 space-y-6 h-0">
 
                 <!-- VISTA 1: INICIO (PANEL OPERATIVO) -->
@@ -164,14 +210,16 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">Panel Operativo TI</h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Vista general de tareas de mantenimiento, inventario y alertas críticas.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Vista general de tareas de mantenimiento,
+                                inventario y alertas críticas.</p>
                         </div>
                     </div>
 
                     <!-- FILA DE TARJETAS DE ALERTA RÁPIDA (4 columnas) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="alert-summary-cards">
                         <!-- Tarjeta 1: Stock Crítico -->
-                        <div class="bg-white rounded-xl border-l-4 border-red-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div
+                            class="bg-white rounded-xl border-l-4 border-red-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
                             <div>
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-2">
@@ -179,27 +227,34 @@
                                             <i data-lucide="alert-triangle" class="w-5 h-5"></i>
                                         </div>
                                         <div>
-                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Stock crítico</h3>
+                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Stock
+                                                crítico</h3>
                                             <div class="flex items-baseline gap-1.5">
-                                                <span class="text-xl font-bold text-red-600" id="card-stock-critico-count">0</span>
+                                                <span class="text-xl font-bold text-red-600"
+                                                    id="card-stock-critico-count">0</span>
                                                 <span class="text-xs text-slate-500 font-medium">ítems</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <p class="text-[10px] text-slate-400 font-medium mt-1">Bajo el mínimo en bodega</p>
-                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3" id="card-stock-critico-list">
+                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3"
+                                    id="card-stock-critico-list">
                                     <!-- Dinámico -->
                                 </div>
                             </div>
-                            <button class="mt-4 text-xs font-semibold text-red-600 hover:text-red-800 flex items-center gap-1 group w-fit" onclick="changeSidebarTab('inventario')">
+                            <button
+                                class="mt-4 text-xs font-semibold text-red-600 hover:text-red-800 flex items-center gap-1 group w-fit"
+                                onclick="changeSidebarTab('inventario')">
                                 <span>Ver inventario crítico</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                                <i data-lucide="arrow-right"
+                                    class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                             </button>
                         </div>
 
                         <!-- Tarjeta 2: Tareas Vencidas -->
-                        <div class="bg-white rounded-xl border-l-4 border-amber-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div
+                            class="bg-white rounded-xl border-l-4 border-amber-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
                             <div>
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-2">
@@ -207,27 +262,34 @@
                                             <i data-lucide="calendar-off" class="w-5 h-5"></i>
                                         </div>
                                         <div>
-                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tareas vencidas</h3>
+                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tareas
+                                                vencidas</h3>
                                             <div class="flex items-baseline gap-1.5">
-                                                <span class="text-xl font-bold text-amber-600" id="card-tareas-vencidas-count">0</span>
+                                                <span class="text-xl font-bold text-amber-600"
+                                                    id="card-tareas-vencidas-count">0</span>
                                                 <span class="text-xs text-slate-500 font-medium">tareas</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <p class="text-[10px] text-slate-400 font-medium mt-1">Con fecha de entrega pasada</p>
-                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3" id="card-tareas-vencidas-list">
+                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3"
+                                    id="card-tareas-vencidas-list">
                                     <!-- Dinámico -->
                                 </div>
                             </div>
-                            <button class="mt-4 text-xs font-semibold text-amber-600 hover:text-amber-800 flex items-center gap-1 group w-fit" onclick="filterByOverdue()">
+                            <button
+                                class="mt-4 text-xs font-semibold text-amber-600 hover:text-amber-800 flex items-center gap-1 group w-fit"
+                                onclick="filterByOverdue()">
                                 <span>Ver tareas vencidas</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                                <i data-lucide="arrow-right"
+                                    class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                             </button>
                         </div>
 
                         <!-- Tarjeta 3: Mantenimiento Urgente -->
-                        <div class="bg-white rounded-xl border-l-4 border-rose-600 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div
+                            class="bg-white rounded-xl border-l-4 border-rose-600 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
                             <div>
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-2">
@@ -235,27 +297,34 @@
                                             <i data-lucide="activity" class="w-5 h-5"></i>
                                         </div>
                                         <div>
-                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Mantenimiento urgente</h3>
+                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                                Mantenimiento urgente</h3>
                                             <div class="flex items-baseline gap-1.5">
-                                                <span class="text-xl font-bold text-rose-600" id="card-maint-urgente-count">0</span>
+                                                <span class="text-xl font-bold text-rose-600"
+                                                    id="card-maint-urgente-count">0</span>
                                                 <span class="text-xs text-slate-500 font-medium">tareas</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <p class="text-[10px] text-slate-400 font-medium mt-1">Prioridad Alta abiertas</p>
-                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3" id="card-maint-urgente-list">
+                                <div class="mt-3 space-y-1.5 border-t border-slate-100 pt-3"
+                                    id="card-maint-urgente-list">
                                     <!-- Dinámico -->
                                 </div>
                             </div>
-                            <button class="mt-4 text-xs font-semibold text-rose-600 hover:text-rose-800 flex items-center gap-1 group w-fit" onclick="filterByPriority('Alta')">
+                            <button
+                                class="mt-4 text-xs font-semibold text-rose-600 hover:text-rose-800 flex items-center gap-1 group w-fit"
+                                onclick="filterByPriority('Alta')">
                                 <span>Ver urgencias</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                                <i data-lucide="arrow-right"
+                                    class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                             </button>
                         </div>
 
                         <!-- Tarjeta 4: Equipos sin Responsable -->
-                        <div class="bg-white rounded-xl border-l-4 border-blue-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div
+                            class="bg-white rounded-xl border-l-4 border-blue-500 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
                             <div>
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center gap-2">
@@ -263,9 +332,11 @@
                                             <i data-lucide="user-minus" class="w-5 h-5"></i>
                                         </div>
                                         <div>
-                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sin responsable</h3>
+                                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sin
+                                                responsable</h3>
                                             <div class="flex items-baseline gap-1.5">
-                                                <span class="text-xl font-bold text-blue-600" id="card-sin-resp-count">0</span>
+                                                <span class="text-xl font-bold text-blue-600"
+                                                    id="card-sin-resp-count">0</span>
                                                 <span class="text-xs text-slate-500 font-medium">activos</span>
                                             </div>
                                         </div>
@@ -276,9 +347,12 @@
                                     <!-- Dinámico -->
                                 </div>
                             </div>
-                            <button class="mt-4 text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 group w-fit" onclick="changeSidebarTab('equipos')">
+                            <button
+                                class="mt-4 text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 group w-fit"
+                                onclick="changeSidebarTab('equipos')">
                                 <span>Asignar responsables</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                                <i data-lucide="arrow-right"
+                                    class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                             </button>
                         </div>
                     </div>
@@ -287,18 +361,23 @@
                     <div class="grid grid-cols-1 lg:grid-cols-12 xl:grid-cols-6 gap-5 items-start">
 
                         <!-- PANEL IZQUIERDO DE FILTROS -->
-                        <div class="lg:col-span-3 xl:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 space-y-4">
+                        <div
+                            class="lg:col-span-3 xl:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 space-y-4">
                             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                                 <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
                                     <span>Filtros</span>
                                 </h3>
-                                <button class="text-xs font-bold text-blue-600 hover:text-blue-800" onclick="clearAllFilters()">Limpiar</button>
+                                <button class="text-xs font-bold text-blue-600 hover:text-blue-800"
+                                    onclick="clearAllFilters()">Limpiar</button>
                             </div>
 
                             <!-- Prioridad -->
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Prioridad</label>
-                                <select id="filter-priority" class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none" onchange="applyFilters()">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Prioridad</label>
+                                <select id="filter-priority"
+                                    class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none"
+                                    onchange="applyFilters()">
                                     <option value="Todas">Todas</option>
                                     <option value="Alta">Alta</option>
                                     <option value="Media">Media</option>
@@ -308,8 +387,11 @@
 
                             <!-- Responsable -->
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Responsable</label>
-                                <select id="filter-responsible" class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none" onchange="applyFilters()">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Responsable</label>
+                                <select id="filter-responsible"
+                                    class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none"
+                                    onchange="applyFilters()">
                                     <option value="Todos">Todos</option>
                                     <option value="Juan Pérez">Juan Pérez</option>
                                     <option value="Pedro Soto">Pedro Soto</option>
@@ -319,17 +401,24 @@
 
                             <!-- Equipo -->
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Equipo</label>
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Equipo</label>
                                 <div class="relative">
-                                    <input type="text" id="filter-equipment" placeholder="Buscar equipo..." class="w-full bg-slate-50/50 border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none" oninput="applyFilters()">
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5"></i>
+                                    <input type="text" id="filter-equipment" placeholder="Buscar equipo..."
+                                        class="w-full bg-slate-50/50 border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none"
+                                        oninput="applyFilters()">
+                                    <i data-lucide="search"
+                                        class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5"></i>
                                 </div>
                             </div>
 
                             <!-- Vencimiento -->
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Vencimiento</label>
-                                <select id="filter-due" class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none" onchange="applyFilters()">
+                                <label
+                                    class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Vencimiento</label>
+                                <select id="filter-due"
+                                    class="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-600 outline-none"
+                                    onchange="applyFilters()">
                                     <option value="Todos">Todos</option>
                                     <option value="Vencidos">Vencidos</option>
                                     <option value="Proximos">Próximos 7 días</option>
@@ -340,13 +429,18 @@
                             <div class="flex items-center justify-between pt-2 border-t border-slate-100">
                                 <span class="text-xs font-semibold text-slate-600">Mostrar solo mis tareas</span>
                                 <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="toggle-my-tasks" class="sr-only peer" onchange="applyFilters()">
-                                    <div class="w-8 h-4 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <input type="checkbox" id="toggle-my-tasks" class="sr-only peer"
+                                        onchange="applyFilters()">
+                                    <div
+                                        class="w-8 h-4 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-600">
+                                    </div>
                                 </label>
                             </div>
 
                             <!-- Botón Guardar Vista -->
-                            <button class="w-full py-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all shadow-sm" onclick="showToast('Guardar', 'La vista de filtros actual se ha guardado correctamente.')">
+                            <button
+                                class="w-full py-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all shadow-sm"
+                                onclick="showToast('Guardar', 'La vista de filtros actual se ha guardado correctamente.')">
                                 <i data-lucide="bookmark" class="w-3.5 h-3.5 text-slate-400"></i>
                                 <span>Guardar vista</span>
                             </button>
@@ -355,28 +449,37 @@
                         <!-- TABLERO KANBAN -->
                         <div class="lg:col-span-9 xl:col-span-4 space-y-4">
                             <!-- Barra de control del Kanban -->
-                            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm">
+                            <div
+                                class="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm">
                                 <div class="relative w-full sm:w-64">
-                                    <input type="text" id="kanban-search" placeholder="Buscar en el tablero..." class="w-full bg-slate-50/50 border border-slate-200 rounded-lg pl-3 pr-8 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-700 outline-none" oninput="applyFilters()">
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5"></i>
+                                    <input type="text" id="kanban-search" placeholder="Buscar en el tablero..."
+                                        class="w-full bg-slate-50/50 border border-slate-200 rounded-lg pl-3 pr-8 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-slate-700 outline-none"
+                                        oninput="applyFilters()">
+                                    <i data-lucide="search"
+                                        class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5"></i>
                                 </div>
                                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                                    <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50 shadow-sm transition-colors" onclick="showToast('Filtros', 'Mostrando opciones de filtrado avanzado...')">
-                                        <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-slate-500"></i>
-                                        <span>Filtros</span>
-                                    </button>
-                                    <div class="flex items-center gap-1.5 border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
+
+                                    <div
+                                        class="flex items-center gap-1.5 border border-slate-200 bg-white rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
                                         <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-slate-400"></i>
                                         <span class="text-slate-400 font-normal">Ordenar:</span>
-                                        <select id="kanban-sort" class="bg-transparent border-none outline-none cursor-pointer text-slate-700 font-semibold" onchange="sortKanbanCards()">
+                                        <select id="kanban-sort"
+                                            class="bg-transparent border-none outline-none cursor-pointer text-slate-700 font-semibold"
+                                            onchange="sortKanbanCards()">
                                             <option value="vencimiento">Vencimiento</option>
                                             <option value="prioridad">Prioridad</option>
                                             <option value="id">Identificador</option>
                                         </select>
                                     </div>
                                     <div class="flex items-center gap-1 border-l border-slate-200 pl-2">
-                                        <button class="p-1.5 hover:bg-slate-100 text-blue-600 bg-blue-50 rounded" title="Vista Kanban"><i data-lucide="kanban" class="w-3.5 h-3.5"></i></button>
-                                        <button class="p-1.5 hover:bg-slate-100 text-slate-400 rounded" title="Vista Lista" onclick="showToast('Vista', 'Cambiando a vista de lista...')"><i data-lucide="list" class="w-3.5 h-3.5"></i></button>
+                                        <button class="p-1.5 hover:bg-slate-100 text-blue-600 bg-blue-50 rounded"
+                                            title="Vista Kanban"><i data-lucide="kanban"
+                                                class="w-3.5 h-3.5"></i></button>
+                                        <button class="p-1.5 hover:bg-slate-100 text-slate-400 rounded"
+                                            title="Vista Lista"
+                                            onclick="showToast('Vista', 'Cambiando a vista de lista...')"><i
+                                                data-lucide="list" class="w-3.5 h-3.5"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -387,12 +490,15 @@
                                 <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Pendiente</span>
-                                        <span id="count-pendiente" class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
+                                        <span id="count-pendiente"
+                                            class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
                                     </div>
                                     <div id="col-pendiente" class="flex-1 space-y-3 overflow-y-visible max-h-none pr-1">
                                         <!-- Dinámico -->
                                     </div>
-                                    <button class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1" onclick="openAddTaskModal('Pendiente')">
+                                    <button
+                                        class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1"
+                                        onclick="openAddTaskModal('Pendiente')">
                                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                         <span>Agregar tarea</span>
                                     </button>
@@ -402,27 +508,33 @@
                                 <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">En proceso</span>
-                                        <span id="count-proceso" class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
+                                        <span id="count-proceso"
+                                            class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
                                     </div>
                                     <div id="col-proceso" class="flex-1 space-y-3 overflow-y-visible max-h-none pr-1">
                                         <!-- Dinámico -->
                                     </div>
-                                    <button class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1" onclick="openAddTaskModal('En proceso')">
+                                    <button
+                                        class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1"
+                                        onclick="openAddTaskModal('En proceso')">
                                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                         <span>Agregar tarea</span>
                                     </button>
                                 </div>
 
-                                <!-- Columna 3: Observado -->
+                                <!-- Columna 3: En revisión -->
                                 <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
                                     <div class="flex items-center justify-between mb-3 px-1">
-                                        <span class="text-xs font-bold text-slate-700">Observado</span>
-                                        <span id="count-observado" class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
+                                        <span class="text-xs font-bold text-slate-700">En revisión</span>
+                                        <span id="count-observado"
+                                            class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
                                     </div>
                                     <div id="col-observado" class="flex-1 space-y-3 overflow-y-visible max-h-none pr-1">
                                         <!-- Dinámico -->
                                     </div>
-                                    <button class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1" onclick="openAddTaskModal('Observado')">
+                                    <button
+                                        class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1"
+                                        onclick="openAddTaskModal('En revisión')">
                                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                         <span>Agregar tarea</span>
                                     </button>
@@ -432,12 +544,15 @@
                                 <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Cerrado</span>
-                                        <span id="count-cerrado" class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
+                                        <span id="count-cerrado"
+                                            class="text-[11px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-full">0</span>
                                     </div>
                                     <div id="col-cerrado" class="flex-1 space-y-3 overflow-y-visible max-h-none pr-1">
                                         <!-- Dinámico -->
                                     </div>
-                                    <button class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1" onclick="openAddTaskModal('Cerrado')">
+                                    <button
+                                        class="mt-3 py-2 text-slate-500 hover:text-blue-600 text-xs font-semibold flex items-center gap-1.5 transition-colors justify-start px-1"
+                                        onclick="openAddTaskModal('Cerrado')">
                                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                         <span>Agregar tarea</span>
                                     </button>
@@ -449,18 +564,21 @@
                         <div class="lg:col-span-12 xl:col-span-1 space-y-6">
                             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                                 <!-- Header plegable -->
-                                <div class="bg-slate-50/50 border-b border-slate-200 px-4 py-3 flex items-center justify-between cursor-pointer" onclick="toggleActionCenter()">
+                                <div class="bg-slate-50/50 border-b border-slate-200 px-4 py-3 flex items-center justify-between cursor-pointer"
+                                    onclick="toggleActionCenter()">
                                     <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider">
                                         <span>Centro de acción</span>
                                     </h3>
-                                    <i id="action-center-chevron" data-lucide="chevron-up" class="w-4 h-4 text-slate-500 transition-transform"></i>
+                                    <i id="action-center-chevron" data-lucide="chevron-up"
+                                        class="w-4 h-4 text-slate-500 transition-transform"></i>
                                 </div>
 
                                 <!-- Contenido del Centro de Acción -->
                                 <div id="action-center-content" class="p-4 space-y-5 transition-all duration-300">
                                     <!-- Resumen Urgente -->
                                     <div class="space-y-2.5">
-                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Resumen urgente</h4>
+                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                            Resumen urgente</h4>
                                         <div class="space-y-1" id="action-center-summary">
                                             <!-- Dinámico -->
                                         </div>
@@ -468,35 +586,59 @@
 
                                     <!-- Próximos Vencimientos -->
                                     <div class="space-y-2.5 pt-3 border-t border-slate-100">
-                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Próximos vencimientos</h4>
+                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                            Próximos vencimientos</h4>
                                         <div class="space-y-2" id="action-center-due-list">
                                             <!-- Dinámico -->
                                         </div>
-                                        <button class="w-full text-center text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center justify-center gap-1 group mt-2" onclick="changeSidebarTab('calendario')">
+                                        <button
+                                            class="w-full text-center text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center justify-center gap-1 group mt-2"
+                                            onclick="changeSidebarTab('calendario')">
                                             <span>Ver calendario completo</span>
-                                            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+                                            <i data-lucide="arrow-right"
+                                                class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
                                         </button>
                                     </div>
 
                                     <!-- Atajos Rápidos -->
                                     <div class="space-y-2.5 pt-3 border-t border-slate-100">
-                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atajos rápidos</h4>
+                                        <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Atajos
+                                            rápidos</h4>
                                         <div class="grid grid-cols-2 gap-2">
-                                            <button class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group" onclick="openNewServiceModal()">
-                                                <i data-lucide="plus" class="w-4 h-4 text-blue-600 mb-1 group-hover:scale-105 transition-transform"></i>
-                                                <span class="text-[9px] font-bold text-slate-500 text-center leading-tight">Nuevo servicio</span>
+                                            <button
+                                                class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group"
+                                                onclick="openNewServiceModal()">
+                                                <i data-lucide="plus"
+                                                    class="w-4 h-4 text-blue-600 mb-1 group-hover:scale-105 transition-transform"></i>
+                                                <span
+                                                    class="text-[9px] font-bold text-slate-500 text-center leading-tight">Nuevo
+                                                    servicio</span>
                                             </button>
-                                            <button class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group" onclick="changeSidebarTab('inventario')">
-                                                <i data-lucide="box" class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
-                                                <span class="text-[9px] font-bold text-slate-500 text-center leading-tight">Inventario RF-09</span>
+                                            <button
+                                                class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group"
+                                                onclick="changeSidebarTab('inventario')">
+                                                <i data-lucide="box"
+                                                    class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
+                                                <span
+                                                    class="text-[9px] font-bold text-slate-500 text-center leading-tight">Inventario
+                                                    RF-09</span>
                                             </button>
-                                            <button class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group" onclick="changeSidebarTab('equipos')">
-                                                <i data-lucide="check-square" class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
-                                                <span class="text-[9px] font-bold text-slate-500 text-center leading-tight">Checklists TI</span>
+                                            <button
+                                                class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group"
+                                                onclick="changeSidebarTab('equipos')">
+                                                <i data-lucide="check-square"
+                                                    class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
+                                                <span
+                                                    class="text-[9px] font-bold text-slate-500 text-center leading-tight">Checklists
+                                                    TI</span>
                                             </button>
-                                            <button class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group" onclick="changeSidebarTab('config')">
-                                                <i data-lucide="file-text" class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
-                                                <span class="text-[9px] font-bold text-slate-500 text-center leading-tight">Procedimientos</span>
+                                            <button
+                                                class="flex flex-col items-center justify-center p-2.5 border border-slate-200 hover:bg-slate-50 transition-colors rounded-lg bg-white group"
+                                                onclick="changeSidebarTab('config')">
+                                                <i data-lucide="file-text"
+                                                    class="w-4 h-4 text-slate-500 mb-1 group-hover:scale-105 transition-transform"></i>
+                                                <span
+                                                    class="text-[9px] font-bold text-slate-500 text-center leading-tight">Procedimientos</span>
                                             </button>
                                         </div>
                                     </div>
@@ -511,18 +653,25 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">Inventario TI</h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Control y trazabilidad de activos, componentes y periféricos.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Control y trazabilidad de activos, componentes y
+                                periféricos.</p>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                         <!-- Buscador y filtro interno de inventario -->
-                        <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 justify-between items-center bg-slate-50/50">
+                        <div
+                            class="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 justify-between items-center bg-slate-50/50">
                             <div class="relative w-full sm:w-80">
-                                <input type="text" id="inventario-search" placeholder="Buscar por código, serie, marca..." class="w-full bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-xs focus:ring-2 focus:ring-blue-500 outline-none" oninput="filterInventarioTable()">
+                                <input type="text" id="inventario-search"
+                                    placeholder="Buscar por código, serie, marca..."
+                                    class="w-full bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-xs focus:ring-2 focus:ring-blue-500 outline-none"
+                                    oninput="filterInventarioTable()">
                                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto justify-end">
-                                <select id="inventario-filter-tipo" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs outline-none text-slate-600 focus:ring-2 focus:ring-blue-500" onchange="filterInventarioTable()">
+                                <select id="inventario-filter-tipo"
+                                    class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs outline-none text-slate-600 focus:ring-2 focus:ring-blue-500"
+                                    onchange="filterInventarioTable()">
                                     <option value="Todos">Todos los tipos</option>
                                     <option value="Equipo">Equipos</option>
                                     <option value="Componente">Componentes</option>
@@ -559,14 +708,19 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">Historial de Mantenimientos</h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Registro de servicios preventivos, correctivos y auditorías realizadas.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Registro de servicios preventivos, correctivos y
+                                auditorías realizadas.</p>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                         <!-- Buscador del historial -->
-                        <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 justify-between items-center bg-slate-50/50">
+                        <div
+                            class="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-3 justify-between items-center bg-slate-50/50">
                             <div class="relative w-full sm:w-80">
-                                <input type="text" id="servicios-search" placeholder="Buscar por registro, equipo, técnico..." class="w-full bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-xs focus:ring-2 focus:ring-blue-500 outline-none" oninput="filterServiciosTable()">
+                                <input type="text" id="servicios-search"
+                                    placeholder="Buscar por registro, equipo, técnico..."
+                                    class="w-full bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-xs focus:ring-2 focus:ring-blue-500 outline-none"
+                                    oninput="filterServiciosTable()">
                                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
                             </div>
                         </div>
@@ -598,7 +752,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">Cronograma de Mantenimiento</h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Planificación semanal y diaria de tareas asignadas.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Planificación semanal y diaria de tareas asignadas.
+                            </p>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -628,32 +783,40 @@
                 <section id="view-reportes" class="space-y-6 hidden">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">Métricas y Reportes TI</h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Resumen analítico del rendimiento operativo de la infraestructura.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Resumen analítico del rendimiento operativo de la
+                            infraestructura.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- KPI 1 -->
-                        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
                             <div>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Eficiencia de Resolución</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Eficiencia de
+                                    Resolución</span>
                                 <h3 class="text-3xl font-extrabold text-blue-900 mt-2" id="kpi-efficiency">0%</h3>
                                 <p class="text-slate-500 text-xs mt-1">Porcentaje de tareas cerradas sobre el total.</p>
                             </div>
                         </div>
                         <!-- KPI 2 -->
-                        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
                             <div>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Equipos en Alerta</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Equipos en
+                                    Alerta</span>
                                 <h3 class="text-3xl font-extrabold text-red-600 mt-2" id="kpi-warnings">0</h3>
                                 <p class="text-slate-500 text-xs mt-1">Equipos en estado observado o stock crítico.</p>
                             </div>
                         </div>
                         <!-- KPI 3 -->
-                        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
+                        <div
+                            class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between">
                             <div>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Mantenimientos Realizados</span>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Mantenimientos
+                                    Realizados</span>
                                 <h3 class="text-3xl font-extrabold text-slate-900 mt-2" id="kpi-total-maint">0</h3>
-                                <p class="text-slate-500 text-xs mt-1">Intervenciones totales registradas en la bitácora.</p>
+                                <p class="text-slate-500 text-xs mt-1">Intervenciones totales registradas en la
+                                    bitácora.</p>
                             </div>
                         </div>
                     </div>
@@ -661,7 +824,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Categorías -->
                         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
-                            <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                            <h3
+                                class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
                                 <i data-lucide="box" class="w-4 h-4 text-blue-600"></i>
                                 <span>Resumen de Activos por Categoría</span>
                             </h3>
@@ -672,7 +836,8 @@
 
                         <!-- Productividad -->
                         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
-                            <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                            <h3
+                                class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
                                 <i data-lucide="check-square" class="w-4 h-4 text-blue-600"></i>
                                 <span>Productividad de Técnicos (Tareas Cerradas)</span>
                             </h3>
@@ -688,7 +853,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">Listas de Chequeo Técnico</h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Control de revisiones obligatorias de hardware y software por activo.</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Control de revisiones obligatorias de hardware y
+                                software por activo.</p>
                         </div>
                     </div>
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -718,13 +884,15 @@
                 <section id="view-config" class="space-y-6 hidden">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">Ajustes y Procedimientos TI</h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Configuración general de parches de software, manuales técnicos y variables de control.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Configuración general de parches de software, manuales
+                            técnicos y variables de control.</p>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                         <!-- Procedimientos de Operación -->
                         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
-                            <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                            <h3
+                                class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
                                 <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i>
                                 <span>Plantillas de Procedimientos (RF-06)</span>
                             </h3>
@@ -735,7 +903,8 @@
 
                         <!-- Actualizaciones de Software -->
                         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
-                            <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                            <h3
+                                class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
                                 <i data-lucide="refresh-cw" class="w-4 h-4 text-blue-600"></i>
                                 <span>Historial de Actualizaciones (RF-07)</span>
                             </h3>
@@ -752,7 +921,8 @@
                                             <th class="p-3 text-center">Resultado</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table-actualizaciones-body" class="divide-y divide-slate-100 text-slate-700">
+                                    <tbody id="table-actualizaciones-body"
+                                        class="divide-y divide-slate-100 text-slate-700">
                                         <!-- Dinámico -->
                                     </tbody>
                                 </table>
@@ -770,7 +940,8 @@
     <!-- MODALES INTERACTIVOS -->
 
     <!-- Modal para Agregar/Editar Tarea -->
-    <div id="modal-task" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="modal-task"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in duration-200">
             <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
                 <h3 id="modal-title" class="font-bold text-slate-800">Agregar Nueva Tarea</h3>
@@ -783,19 +954,22 @@
 
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-500 uppercase">Equipo asociado</label>
-                    <input type="text" id="task-equip" placeholder="Ej: PC-MP-001" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" id="task-equip" placeholder="Ej: PC-MP-001"
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     <p class="text-[10px] text-slate-400 mt-0.5">Código del equipo. Dejar vacío si no aplica.</p>
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-500 uppercase">Título / Descripción de la Tarea</label>
-                    <input type="text" id="task-desc" placeholder="Ej: Mantenimiento preventivo general..." required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" id="task-desc" placeholder="Ej: Mantenimiento preventivo general..."
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-slate-500 uppercase">Responsable</label>
-                        <select id="task-resp" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        <select id="task-resp" required
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
                             <option value="Juan Pérez">Juan Pérez</option>
                             <option value="Pedro Soto">Pedro Soto</option>
                             <option value="Admin TI">Admin TI</option>
@@ -803,10 +977,11 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-slate-500 uppercase">Estado / Columna</label>
-                        <select id="task-status" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        <select id="task-status" required
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
-                            <option value="Observado">Observado</option>
+                            <option value="En revisión">En revisión</option>
                             <option value="Cerrado">Cerrado</option>
                         </select>
                     </div>
@@ -815,7 +990,8 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-slate-500 uppercase">Prioridad</label>
-                        <select id="task-prio" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        <select id="task-prio" required
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
                             <option value="Alta">Alta</option>
                             <option value="Media">Media</option>
                             <option value="Baja">Baja</option>
@@ -823,20 +999,28 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-slate-500 uppercase">Fecha Límite</label>
-                        <input type="date" id="task-date" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <input type="date" id="task-date" required
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                            onchange="checkDateWarning(this.value)">
+                        <p id="date-warning" class="hidden text-[10px] text-amber-500 mt-1 font-medium">⚠ Esta fecha ya
+                            está vencida.</p>
                     </div>
                 </div>
 
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-6">
-                    <button type="button" onclick="closeAddTaskModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-all">Guardar Tarea</button>
+                    <button type="button" onclick="closeAddTaskModal()"
+                        class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-all">Guardar
+                        Tarea</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Modal para Nuevo Servicio -->
-    <div id="modal-service" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="modal-service"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in duration-200">
             <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800">Registrar Nuevo Servicio</h3>
@@ -847,11 +1031,13 @@
             <div class="p-6 space-y-4">
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-500 uppercase">Nombre del Servicio</label>
-                    <input type="text" id="serv-name" placeholder="Ej: Migración de Servidor de Base de Datos" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="text" id="serv-name" placeholder="Ej: Migración de Servidor de Base de Datos"
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-500 uppercase">Categoría</label>
-                    <select id="serv-category" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                    <select id="serv-category"
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
                         <option value="Soporte">Soporte Técnico</option>
                         <option value="Infraestructura">Infraestructura</option>
                         <option value="Redes">Redes & Conectividad</option>
@@ -860,18 +1046,23 @@
                 </div>
                 <div class="space-y-1">
                     <label class="text-xs font-bold text-slate-500 uppercase">Detalles / Descripción</label>
-                    <textarea id="serv-desc" rows="3" placeholder="Describe brevemente el alcance del servicio..." class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
+                    <textarea id="serv-desc" rows="3" placeholder="Describe brevemente el alcance del servicio..."
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-                    <button type="button" onclick="closeNewServiceModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600">Cancelar</button>
-                    <button type="button" onclick="createService()" class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold">Crear Servicio</button>
+                    <button type="button" onclick="closeNewServiceModal()"
+                        class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600">Cancelar</button>
+                    <button type="button" onclick="createService()"
+                        class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold">Crear
+                        Servicio</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal de Notificaciones -->
-    <div id="modal-notifications" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="modal-notifications"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in duration-200">
             <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -886,8 +1077,10 @@
                 <!-- Dinámico -->
             </div>
             <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
-                <button onclick="markAllNotificationsAsRead()" class="text-xs font-semibold text-blue-600 hover:text-blue-800">Marcar todo como leído</button>
-                <button onclick="closeNotificationsModal()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 rounded-lg text-xs font-bold text-slate-600">Cerrar</button>
+                <button onclick="markAllNotificationsAsRead()"
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-800">Marcar todo como leído</button>
+                <button onclick="closeNotificationsModal()"
+                    class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 rounded-lg text-xs font-bold text-slate-600">Cerrar</button>
             </div>
         </div>
     </div>

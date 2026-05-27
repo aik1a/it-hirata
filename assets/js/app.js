@@ -205,6 +205,17 @@ function showToast(title, message, type = 'default') {
     }, 4500);
 }
 
+function dispatchSubNavAction(action) {
+    const match = action.match(/^(\w+)\('(\w+)',\s*'(\w+)'\)$/);
+    if (match) {
+        const fnName = match[1];
+        const arg1 = match[2];
+        const arg2 = match[3];
+        if (fnName === 'selectSubView') selectSubView(arg1, arg2);
+        else if (fnName === 'changeSidebarTab') changeSidebarTab(arg1, null);
+    }
+}
+
 // CONTROL DE SUB-NAVEGACIÓN CONTEXTUAL
 function renderSubNav(tabKey) {
     const container = document.getElementById('sub-nav-container');
@@ -225,7 +236,7 @@ function renderSubNav(tabKey) {
                 child.className = "px-4 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap transition-all";
             });
             btn.className = "px-4 py-1.5 rounded-lg bg-[#101b37] text-white text-xs font-medium whitespace-nowrap transition-all shadow-sm";
-            eval(tab.action);
+            dispatchSubNavAction(tab.action);
         };
         container.appendChild(btn);
     });
@@ -334,7 +345,6 @@ function changeSidebarTab(tabName, element) {
 
     // Renderizar subnavegación correspondiente
     renderSubNav(tabName);
-    lucide.createIcons();
 }
 
 // APLICAR FILTROS Y PROCESAR KANBAN
@@ -457,12 +467,13 @@ function renderAllViews() {
     renderChecklistTable();
     renderReportes();
     renderConfigView();
+    lucide.createIcons();
 }
 
 // RENDERIZADO DE LAS TARJETAS SUPERIORES DE ALERTA RÁPIDA
 function renderAlertCards() {
     const stockCritico = (state.data.alertas || []).filter(a => a.tipo === "Stock critico");
-    const tareasVencidas = state.tasks.filter(t => t.status !== 'Cerrado' && new Date(t.date) < new Date('2024-05-18'));
+    const tareasVencidas = state.tasks.filter(t => t.status !== 'Cerrado' && new Date(t.date) < new Date());
     const maintUrgente = state.tasks.filter(t => t.status !== 'Cerrado' && t.prio === 'Alta');
     const sinResponsable = (state.data.inventario || []).filter(i => i.tipo === "Equipo" && (!i.modelo || i.estado === "Observado")); // Regla de ejemplo
     
@@ -554,7 +565,7 @@ function renderKanban() {
             if (!match) return false;
         }
         if (state.activeFilters.due !== 'Todos') {
-            const today = new Date('2024-05-18');
+            const today = new Date();
             const taskDate = new Date(task.date);
             if (state.activeFilters.due === 'Vencidos' && taskDate >= today) return false;
             if (state.activeFilters.due === 'Proximos') {
@@ -660,8 +671,6 @@ function renderKanban() {
     document.getElementById('count-proceso').textContent = counts['En proceso'];
     document.getElementById('count-observado').textContent = counts['Observado'];
     document.getElementById('count-cerrado').textContent = counts['Cerrado'];
-
-    lucide.createIcons();
 }
 
 // RENDERIZADO DEL CENTRO DE ACCIÓN DERECHO
@@ -671,7 +680,7 @@ function renderActionCenter() {
 
     // Resumen Urgente
     const stockCritico = (state.data.alertas || []).filter(a => a.tipo === "Stock critico").length;
-    const tareasVencidas = state.tasks.filter(t => t.status !== 'Cerrado' && new Date(t.date) < new Date('2024-05-18')).length;
+    const tareasVencidas = state.tasks.filter(t => t.status !== 'Cerrado' && new Date(t.date) < new Date()).length;
     const maintUrgente = state.tasks.filter(t => t.status !== 'Cerrado' && t.prio === 'Alta').length;
 
     summaryContainer.innerHTML = `
@@ -743,8 +752,6 @@ function renderActionCenter() {
             </div>
         `;
     }).join("");
-
-    lucide.createIcons();
 }
 
 // RENDERIZADO DE TABLA DE INVENTARIO
@@ -1041,14 +1048,14 @@ function saveTask(event) {
 
     let id = idInput;
     let equip = equipInput;
-    if (equipInput.includes(' · ')) {
-        const parts = equipInput.split(' · ');
-        id = parts[0].trim();
-        equip = parts[1].trim();
-    } else if (!idInput) {
-        // Generar id secuencial
+
+    if (!idInput || idInput.trim() === '') {
         const nextNum = state.tasks.length + 1;
-        id = `T${nextNum < 10 ? '0' : ''}${nextNum}`;
+        id = `T${String(nextNum).padStart(3, '0')}`;
+    }
+
+    if (!equip || equip.trim() === '') {
+        equip = 'Sin equipo';
     }
 
     const taskData = { id, equip, desc, resp, status, prio, date };

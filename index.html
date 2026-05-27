@@ -171,14 +171,45 @@
                         <div
                             class="w-8 h-8 rounded-full bg-[#101b37] flex items-center justify-center text-sm font-bold text-white">
                             JP</div>
+                                     <!-- Botón Nuevo con Dropdown -->
+                    <div class="relative" id="nuevo-dropdown-container">
+                        <button onclick="toggleNuevoDropdown()" class="bg-[#101b37] hover:bg-[#1a2d5c] text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-all hover:shadow">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Nuevo</span>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1"></i>
+                        </button>
+                        <div id="nuevo-dropdown" class="hidden absolute right-0 top-full mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                            <div class="p-1.5 flex flex-col gap-0.5">
+                                <button onclick="closeNuevoDropdown(); openAddTaskModal('Pendiente')" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-left w-full transition-colors">
+                                    <div class="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="check-square" class="w-3.5 h-3.5 text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-700">Tarea</p>
+                                        <p class="text-[10px] text-slate-400">Nueva tarea de mantenimiento</p>
+                                    </div>
+                                </button>
+                                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+                                    <div class="w-7 h-7 bg-green-50 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="wrench" class="w-3.5 h-3.5 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-700">Servicio</p>
+                                        <p class="text-[10px] text-slate-400">Disponible en Fase 3</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+                                    <div class="w-7 h-7 bg-purple-50 rounded-lg flex items-center justify-center">
+                                        <i data-lucide="monitor" class="w-3.5 h-3.5 text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-700">Equipo</p>
+                                        <p class="text-[10px] text-slate-400">Disponible en Fase 4</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- Botón Nuevo Servicio -->
-                    <button disabled
-                        class="bg-slate-300 text-slate-500 text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 cursor-not-allowed opacity-60"
-                        title="Próximamente: acceso rápido a todos los formularios">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Nuevo</span>
-                    </button>
                 </div>
             </header>
 
@@ -487,7 +518,7 @@
                             <!-- Columnas del Kanban -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto pb-4">
                                 <!-- Columna 1: Pendiente -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Pendiente')" id="dropzone-pendiente">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Pendiente</span>
                                         <span id="count-pendiente"
@@ -505,7 +536,7 @@
                                 </div>
 
                                 <!-- Columna 2: En proceso -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En proceso')" id="dropzone-proceso">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">En proceso</span>
                                         <span id="count-proceso"
@@ -523,7 +554,7 @@
                                 </div>
 
                                 <!-- Columna 3: En revisión -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En revisión')" id="dropzone-revision">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">En revisión</span>
                                         <span id="count-observado"
@@ -541,7 +572,7 @@
                                 </div>
 
                                 <!-- Columna 4: Cerrado -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px]">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Cerrado')" id="dropzone-cerrado">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Cerrado</span>
                                         <span id="count-cerrado"
@@ -1015,6 +1046,22 @@
                         Tarea</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de cambio de estado (Drag & Drop) -->
+    <div id="modal-confirm-status" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-sm">Cambiar estado de tarea</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-slate-600 leading-relaxed" id="confirm-status-msg">¿Confirmar cambio?</p>
+            </div>
+            <div class="px-6 pb-6 flex justify-end gap-3">
+                <button onclick="cancelDragDrop()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
+                <button onclick="confirmDragDrop()" class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-all">Confirmar</button>
+            </div>
         </div>
     </div>
 

@@ -457,6 +457,32 @@ async function refreshData() {
     showToast('Sincronizado', 'Datos actualizados desde MySQL.', 'success');
 }
 
+// DROPDOWN NUEVO
+function toggleNuevoDropdown() {
+    const dropdown = document.getElementById('nuevo-dropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+function closeNuevoDropdown() {
+    const dropdown = document.getElementById('nuevo-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+document.addEventListener('click', function(e) {
+    const container = document.getElementById('nuevo-dropdown-container');
+    if (container && !container.contains(e.target)) {
+        closeNuevoDropdown();
+    }
+});
+
+function openAddServiceModal() {
+    // Disponible en Fase 3
+}
+
+function openAddEquipoModal() {
+    // Disponible en Fase 4
+}
+
 // PLEGAR O DESPLEGAR EL ACCORDION DEL CENTRO DE ACCIÓN
 function toggleActionCenter() {
     const content = document.getElementById('action-center-content');
@@ -658,7 +684,10 @@ function renderKanban() {
 
         const card = document.createElement('div');
         card.id = `card-${task.id}`;
-        card.className = `bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md cursor-pointer transition-all hover:border-slate-300 relative group`;
+        card.className = `bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-md cursor-grab transition-all hover:border-slate-300 relative group`;
+        card.draggable = true;
+        card.addEventListener('dragstart', (e) => handleDragStart(e, task.id));
+        card.addEventListener('dragend', handleDragEnd);
         card.onclick = () => openEditTaskModal(task);
 
         card.innerHTML = `
@@ -1244,6 +1273,66 @@ function saveTask(event) {
     renderKanban();
     renderActionCenter();
     renderReportes();
+}
+
+// DRAG & DROP KANBAN
+let dragState = { taskId: null, targetStatus: null };
+
+function handleDragStart(e, taskId) {
+    dragState.taskId = taskId;
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => {
+        const card = document.getElementById(`card-${taskId}`);
+        if (card) card.classList.add('opacity-50', 'scale-95');
+    }, 0);
+}
+
+function handleDragEnd(e) {
+    const card = document.getElementById(`card-${dragState.taskId}`);
+    if (card) card.classList.remove('opacity-50', 'scale-95');
+    document.querySelectorAll('[id^="dropzone-"]').forEach(zone => {
+        zone.classList.remove('bg-blue-50', 'border-2', 'border-blue-300', 'border-dashed');
+    });
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const zone = e.currentTarget;
+    zone.classList.add('bg-blue-50', 'border-2', 'border-blue-300', 'border-dashed');
+}
+
+function handleDrop(e, targetStatus) {
+    e.preventDefault();
+    const zone = e.currentTarget;
+    zone.classList.remove('bg-blue-50', 'border-2', 'border-blue-300', 'border-dashed');
+
+    if (!dragState.taskId) return;
+
+    const task = state.tasks.find(t => t.id === dragState.taskId);
+    if (!task || task.status === targetStatus) return;
+
+    dragState.targetStatus = targetStatus;
+
+    const msg = document.getElementById('confirm-status-msg');
+    if (msg) {
+        msg.textContent = `¿Marcar la tarea ${task.id} — "${task.desc}" como "${targetStatus}"?`;
+    }
+
+    document.getElementById('modal-confirm-status').classList.remove('hidden');
+}
+
+function confirmDragDrop() {
+    if (!dragState.taskId || !dragState.targetStatus) return;
+    quickChangeStatus(dragState.taskId, dragState.targetStatus);
+    document.getElementById('modal-confirm-status').classList.add('hidden');
+    dragState = { taskId: null, targetStatus: null };
+}
+
+function cancelDragDrop() {
+    document.getElementById('modal-confirm-status').classList.add('hidden');
+    dragState = { taskId: null, targetStatus: null };
+    renderKanban();
 }
 
 function quickChangeStatus(taskId, newStatus) {

@@ -49,9 +49,9 @@
 
         <!-- BARRA LATERAL IZQUIERDA (AZUL DE ALTO CONTRASTE) -->
         <aside
-            class="w-18 md:w-20 bg-blue-950 text-white flex flex-col justify-start items-center py-6 border-r border-blue-900 flex-shrink-0 z-20 h-full">
+            class="w-18 md:w-20 bg-blue-950 text-white flex flex-col justify-start items-center py-6 border-r border-blue-900 flex-shrink-0 z-20 h-full overflow-hidden h-screen">
             <!-- Logo / Inicio -->
-            <div class="flex flex-col items-center gap-6 w-full">
+            <div class="flex flex-col items-center gap-6 w-full flex-1 overflow-y-auto min-h-0">
                 <!-- Icono de marca -->
                 <div class="p-2 bg-blue-900 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
                     onclick="clearAllFilters()">
@@ -122,13 +122,6 @@
             <!-- Ayuda (Abajo) -->
             <div class="w-full px-2 flex flex-col gap-1 mt-auto">
                 <button
-                    class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-blue-300 hover:text-white font-medium text-[10px] transition-all hover:bg-blue-900/50 group"
-                    onclick="showToast('Ayuda', 'Abriendo centro de ayuda y soporte técnico...')">
-                    <i data-lucide="help-circle"
-                        class="w-5 h-5 mb-1 text-blue-300 group-hover:scale-105 transition-transform"></i>
-                    <span>Ayuda</span>
-                </button>
-                <button
                     class="flex flex-col items-center justify-center py-3 w-full rounded-xl text-red-400 hover:text-white font-medium text-[10px] transition-all hover:bg-red-900/60 border border-red-900/40 hover:border-red-700 group mt-1"
                     onclick="document.getElementById('modal-confirm-exit').classList.remove('hidden'); lucide.createIcons();">
                     <i data-lucide="power"
@@ -178,46 +171,51 @@
                         <div
                             class="w-8 h-8 rounded-full bg-[#101b37] flex items-center justify-center text-sm font-bold text-white">
                             JP</div>
-                                     <!-- Botón Nuevo con Dropdown -->
-                    <div class="relative" id="nuevo-dropdown-container">
-                        <button onclick="toggleNuevoDropdown()" class="bg-[#101b37] hover:bg-[#1a2d5c] text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-all hover:shadow">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                            <span>Nuevo</span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1"></i>
-                        </button>
-                        <div id="nuevo-dropdown" class="hidden absolute right-0 top-full mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
-                            <div class="p-1.5 flex flex-col gap-0.5">
-                                <button onclick="closeNuevoDropdown(); openAddTaskModal('Pendiente')" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-left w-full transition-colors">
-                                    <div class="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="check-square" class="w-3.5 h-3.5 text-blue-600"></i>
+                        <!-- Botón Nuevo con Dropdown -->
+                        <div class="relative" id="nuevo-dropdown-container">
+                            <button onclick="toggleNuevoDropdown()"
+                                class="bg-[#101b37] hover:bg-[#1a2d5c] text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm transition-all hover:shadow">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Nuevo</span>
+                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1"></i>
+                            </button>
+                            <div id="nuevo-dropdown"
+                                class="hidden absolute right-0 top-full mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                                <div class="p-1.5 flex flex-col gap-0.5">
+                                    <button onclick="closeNuevoDropdown(); openAddTaskModal('Pendiente')"
+                                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-left w-full transition-colors">
+                                        <div class="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="check-square" class="w-3.5 h-3.5 text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-700">Tarea</p>
+                                            <p class="text-[10px] text-slate-400">Nueva tarea de mantenimiento</p>
+                                        </div>
+                                    </button>
+                                    <div
+                                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+                                        <div class="w-7 h-7 bg-green-50 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="wrench" class="w-3.5 h-3.5 text-green-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-700">Servicio</p>
+                                            <p class="text-[10px] text-slate-400">Disponible en Fase 3</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="text-xs font-bold text-slate-700">Tarea</p>
-                                        <p class="text-[10px] text-slate-400">Nueva tarea de mantenimiento</p>
-                                    </div>
-                                </button>
-                                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
-                                    <div class="w-7 h-7 bg-green-50 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="wrench" class="w-3.5 h-3.5 text-green-600"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-bold text-slate-700">Servicio</p>
-                                        <p class="text-[10px] text-slate-400">Disponible en Fase 3</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
-                                    <div class="w-7 h-7 bg-purple-50 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="monitor" class="w-3.5 h-3.5 text-purple-600"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-bold text-slate-700">Equipo</p>
-                                        <p class="text-[10px] text-slate-400">Disponible en Fase 4</p>
+                                    <div
+                                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+                                        <div class="w-7 h-7 bg-purple-50 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="monitor" class="w-3.5 h-3.5 text-purple-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-700">Equipo</p>
+                                            <p class="text-[10px] text-slate-400">Disponible en Fase 4</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </header>
 
             <!-- SUB-NAVEGACIÓN DE PESTAÑAS DINÁMICAS -->
@@ -522,7 +520,9 @@
                             <!-- Columnas del Kanban -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto pb-4">
                                 <!-- Columna 1: Pendiente -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Pendiente')" id="dropzone-pendiente">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors"
+                                    ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Pendiente')"
+                                    id="dropzone-pendiente">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Pendiente</span>
                                         <span id="count-pendiente"
@@ -540,7 +540,9 @@
                                 </div>
 
                                 <!-- Columna 2: En proceso -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En proceso')" id="dropzone-proceso">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors"
+                                    ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En proceso')"
+                                    id="dropzone-proceso">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">En proceso</span>
                                         <span id="count-proceso"
@@ -558,7 +560,9 @@
                                 </div>
 
                                 <!-- Columna 3: En revisión -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En revisión')" id="dropzone-revision">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors"
+                                    ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'En revisión')"
+                                    id="dropzone-revision">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">En revisión</span>
                                         <span id="count-observado"
@@ -576,7 +580,9 @@
                                 </div>
 
                                 <!-- Columna 4: Cerrado -->
-                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Cerrado')" id="dropzone-cerrado">
+                                <div class="bg-[#f4f5f7]/80 rounded-xl p-3 flex flex-col min-w-[210px] transition-colors"
+                                    ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'Cerrado')"
+                                    id="dropzone-cerrado">
                                     <div class="flex items-center justify-between mb-3 px-1">
                                         <span class="text-xs font-bold text-slate-700">Cerrado</span>
                                         <span id="count-cerrado"
@@ -712,7 +718,8 @@
                                     <option value="Periférico">Periféricos</option>
                                     <option value="Accesorio">Accesorios</option>
                                 </select>
-                                <button onclick="openAddEquipoModal()" class="flex items-center gap-2 px-3 py-1.5 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-colors">
+                                <button onclick="openAddEquipoModal()"
+                                    class="flex items-center gap-2 px-3 py-1.5 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-colors">
                                     <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                     Agregar equipo
                                 </button>
@@ -765,7 +772,8 @@
                         </div>
                         <div class="overflow-x-auto">
                             <div class="flex justify-end mb-3 mt-4 mr-4">
-                                <button onclick="openAddServiceModal()" class="flex items-center gap-2 px-3 py-1.5 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-colors">
+                                <button onclick="openAddServiceModal()"
+                                    class="flex items-center gap-2 px-3 py-1.5 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-colors">
                                     <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                     Registrar mantención
                                 </button>
@@ -782,7 +790,9 @@
                                         <th class="p-4">Repuestos</th>
                                         <th class="p-4">Técnico</th>
                                         <th class="p-4 text-center">Estado</th>
-                                        <th class="p-4 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider">Acciones</th>
+                                        <th
+                                            class="p-4 text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                            Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-servicios-body" class="divide-y divide-slate-100 text-slate-700">
@@ -1089,18 +1099,25 @@
             </div>
             <div class="p-6">
                 <p class="text-sm text-slate-600 leading-relaxed">¿Estás seguro que deseas cerrar HirataDash?</p>
+                <p id="exit-instruction" class="hidden mt-3 text-sm text-red-600 font-medium leading-relaxed">
+                    Puedes cerrar esta pestaña con <strong>Ctrl + W</strong> (Windows) o <strong>Cmd + W</strong> (Mac).
+                </p>
             </div>
             <div class="px-6 pb-6 flex justify-end gap-3">
                 <button onclick="document.getElementById('modal-confirm-exit').classList.add('hidden')"
                     class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
-                <button onclick="window.close()"
-                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all">Cerrar</button>
+                <button
+                    onclick="document.getElementById('modal-confirm-exit').classList.add('hidden'); document.getElementById('exit-instruction').classList.remove('hidden');"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all">
+                    Cerrar
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Modal de confirmación de cambio de estado (Drag & Drop) -->
-    <div id="modal-confirm-status" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+    <div id="modal-confirm-status"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
                 <h3 class="font-bold text-slate-800 text-sm">Cambiar estado de tarea</h3>
@@ -1109,8 +1126,10 @@
                 <p class="text-sm text-slate-600 leading-relaxed" id="confirm-status-msg">¿Confirmar cambio?</p>
             </div>
             <div class="px-6 pb-6 flex justify-end gap-3">
-                <button onclick="cancelDragDrop()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
-                <button onclick="confirmDragDrop()" class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-all">Confirmar</button>
+                <button onclick="cancelDragDrop()"
+                    class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600 transition-colors">Cancelar</button>
+                <button onclick="confirmDragDrop()"
+                    class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold transition-all">Confirmar</button>
             </div>
         </div>
     </div>
@@ -1229,90 +1248,90 @@
 
     <div id="modal-service"
         class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-<div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in duration-200">
-    <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-        <h3 id="modal-service-title" class="font-bold text-slate-800">Registrar Mantención</h3>
-        <button onclick="closeNewServiceModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
-            <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-    </div>
-    <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
-
-        <input type="hidden" id="serv-id-editing">
-
-        <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">Equipo intervenido *</label>
-                <input type="text" id="serv-equipo" placeholder="Ej: PC-MP-001"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                <span id="serv-equipo-error" class="text-xs text-red-500 hidden">Campo requerido</span>
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in duration-200">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <h3 id="modal-service-title" class="font-bold text-slate-800">Registrar Mantención</h3>
+                <button onclick="closeNewServiceModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
             </div>
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">N° de Serie</label>
-                <input type="text" id="serv-serie" placeholder="Ej: MXL1234567"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+
+                <input type="hidden" id="serv-id-editing">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Equipo intervenido *</label>
+                        <input type="text" id="serv-equipo" placeholder="Ej: PC-MP-001"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <span id="serv-equipo-error" class="text-xs text-red-500 hidden">Campo requerido</span>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">N° de Serie</label>
+                        <input type="text" id="serv-serie" placeholder="Ej: MXL1234567"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Técnico responsable *</label>
+                        <select id="serv-tecnico"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        </select>
+                        <span id="serv-tecnico-error" class="text-xs text-red-500 hidden">Campo requerido</span>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Tipo *</label>
+                        <select id="serv-tipo"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            <option value="Preventivo">Preventivo</option>
+                            <option value="Correctivo">Correctivo</option>
+                            <option value="Auditoria">Auditoría</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Fecha del servicio *</label>
+                        <input type="date" id="serv-fecha"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <span id="serv-fecha-error" class="text-xs text-red-500 hidden">Campo requerido</span>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase">Estado final *</label>
+                        <select id="serv-estado"
+                            class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            <option value="Operacional">Operacional</option>
+                            <option value="En revisión">En revisión</option>
+                            <option value="En Mantención">En Mantención</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase">Repuestos utilizados</label>
+                    <input type="text" id="serv-repuestos" placeholder="Ej: RAM DDR4 8GB — dejar vacío si ninguno"
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase">Detalles de la intervención *</label>
+                    <textarea id="serv-detalle" rows="3"
+                        placeholder="Describe qué se hizo, qué se encontró y cómo quedó el equipo..."
+                        class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
+                    <span id="serv-detalle-error" class="text-xs text-red-500 hidden">Campo requerido</span>
+                </div>
+
+                <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
+                    <button type="button" onclick="closeNewServiceModal()"
+                        class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600">Cancelar</button>
+                    <button type="button" onclick="createService()"
+                        class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold">Guardar</button>
+                </div>
             </div>
         </div>
-
-        <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">Técnico responsable *</label>
-                <select id="serv-tecnico"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
-                </select>
-                <span id="serv-tecnico-error" class="text-xs text-red-500 hidden">Campo requerido</span>
-            </div>
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">Tipo *</label>
-                <select id="serv-tipo"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
-                    <option value="Preventivo">Preventivo</option>
-                    <option value="Correctivo">Correctivo</option>
-                    <option value="Auditoria">Auditoría</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">Fecha del servicio *</label>
-                <input type="date" id="serv-fecha"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-                <span id="serv-fecha-error" class="text-xs text-red-500 hidden">Campo requerido</span>
-            </div>
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-500 uppercase">Estado final *</label>
-                <select id="serv-estado"
-                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none bg-white">
-                    <option value="Operacional">Operacional</option>
-                    <option value="En revisión">En revisión</option>
-                    <option value="En Mantención">En Mantención</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-500 uppercase">Repuestos utilizados</label>
-            <input type="text" id="serv-repuestos" placeholder="Ej: RAM DDR4 8GB — dejar vacío si ninguno"
-                class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
-        </div>
-
-        <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-500 uppercase">Detalles de la intervención *</label>
-            <textarea id="serv-detalle" rows="3"
-                placeholder="Describe qué se hizo, qué se encontró y cómo quedó el equipo..."
-                class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
-            <span id="serv-detalle-error" class="text-xs text-red-500 hidden">Campo requerido</span>
-        </div>
-
-        <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-            <button type="button" onclick="closeNewServiceModal()"
-                class="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-bold text-slate-600">Cancelar</button>
-            <button type="button" onclick="createService()"
-                class="px-4 py-2 bg-[#101b37] hover:bg-[#1a2d5c] text-white rounded-lg text-xs font-bold">Guardar</button>
-        </div>
-    </div>
-</div>
     </div>
 
     <!-- Modal de Notificaciones -->
